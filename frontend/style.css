@@ -1,5 +1,33 @@
 
+@keyframes slideInFromLeft {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(0);
+    }
+  }
+
+@keyframes slideDown {
+    0% {
+        transform: translateY(-100%)
+    }
+    100% {
+        transform: translateY(0)
+    }
+}
+
+@keyframes slideUp {
+    0% {
+        transform: translateY(0)
+    }
+    100% {
+        transform: translateY(-100%)
+    }
+}
+
 .flex-container {
+    animation: 0.25s ease-out 0s 1 slideInFromLeft;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -17,6 +45,7 @@
 }
 
 .search {
+    animation: 0.25s ease-out 0s 1 slideInFromLeft;
     display: none;
     flex-direction: column;
     justify-content: center;
@@ -24,6 +53,25 @@
 
 .search > div {
     background-color: #f1f1f1;
+    width: 500px;
+    height: 200px;
+    overflow: auto;
+    margin-bottom: 10px;
+    line-height: 75px;
+    font-size: 30px;
+    border-radius: 5px;
+}
+
+.login {
+    animation: 0.25s ease-out 0s 1 slideInFromLeft;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.login > div {
+    background-color: #f1f1f1;
+    margin-bottom: 10px;
     width: 500px;
     height: 200px;
     overflow: auto;
