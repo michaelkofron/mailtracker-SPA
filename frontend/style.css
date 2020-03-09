@@ -1,0 +1,40 @@
+
+.flex-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.flex-container > div {
+    background-color: #f1f1f1;
+    width: 100px;
+    height: 100px;
+    margin: 10px;
+    text-align: center;
+    line-height: 75px;
+    font-size: 30px;
+    border-radius: 5px;
+}
+
+.search {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.search > div {
+    background-color: #f1f1f1;
+    width: 500px;
+    height: 200px;
+    overflow: auto;
+    line-height: 75px;
+    font-size: 30px;
+    border-radius: 5px;
+}
+
+body {
+    background-image: url('test.png')
+}
+
+
+
