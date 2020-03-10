@@ -4,17 +4,6 @@
     //})    
 //}
 
-class Key {
-    get key(){
-
-        fetch('http://localhost:3000/link').then(response => response.text()).then(text => {
-            document.getElementById("key").innerText = `${text}`
-        })  
-    }
-
-
-}
-
 let listenerLibrary = {
 
     searchIconClick: function(){
@@ -57,8 +46,6 @@ let listenerLibrary = {
 }
 
 document.addEventListener("DOMContentLoaded", (events) => {
-    let key = new Key
-    key.key
 
     console.log(Object.keys(listenerLibrary))
 
@@ -66,11 +53,4 @@ document.addEventListener("DOMContentLoaded", (events) => {
     listenerLibrary.searchIconClick()
     listenerLibrary.xButtonOnSearch() 
 
-    
-    
-    document.getElementById("new-key").addEventListener("click", function(){
-        if (confirm("If you change your key you will lose all current tracking information. Continue?")){
-            key.key
-        }
-    })
 })
