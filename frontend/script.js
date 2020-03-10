@@ -43,6 +43,16 @@ let listenerLibrary = {
                 loginMainDiv[0].style.display = "flex "
             }
         })
+    },
+
+    xButtonOnSearch: function(){
+        document.getElementById("x-button").addEventListener("click", function(){
+            let searchMainDiv = document.getElementsByClassName("search")
+            let searchButton = document.getElementById("search-icon")
+            searchMainDiv[0].style.display = "none"
+            searchButton.style.display = "flex"
+    
+        })
     }
 }
 
@@ -50,8 +60,13 @@ document.addEventListener("DOMContentLoaded", (events) => {
     let key = new Key
     key.key
 
+    console.log(Object.keys(listenerLibrary))
+
     listenerLibrary.loginIconClick()
     listenerLibrary.searchIconClick()
+    listenerLibrary.xButtonOnSearch() 
+
+    
     
     document.getElementById("new-key").addEventListener("click", function(){
         if (confirm("If you change your key you will lose all current tracking information. Continue?")){
