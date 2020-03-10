@@ -50,7 +50,7 @@ div#top-head {
     animation: 0.25s ease-out 0s 1 slideDown;
     height: 20px;
     width: 390px;
-    background-color: blue;
+    background-color: rgb(50, 120, 254);
     margin-bottom: 10px;
     border-radius: 10px;
 }
@@ -280,6 +280,11 @@ div.edit-delete {
     box-shadow: 1px 4px 5px -2px rgba(0, 0, 0, 0.5);
 }
 
+div#account-exit-button {
+    width: 25px;
+    height: 25px;
+}
+
 div#create-account-selection {
     width: 390px;
     height: 195px;
@@ -291,7 +296,9 @@ div#create-account-selection {
 
 div#create-account-selection:hover {
     cursor: pointer;
-    background-color: rgb(66, 131, 253)
+    background-color: rgb(66, 131, 253);
+    -webkit-box-shadow: inset 1px 3px 13px -4px rgba(0,0,0,0.30); 
+    box-shadow: inset 1px 3px 13px -4px rgba(0,0,0,0.30);
 }
 
 div#login-selection {
@@ -305,7 +312,9 @@ div#login-selection {
 
 div#login-selection:hover {
     cursor: pointer;
-    background-color: rgb(238, 238, 238);
+    
+    -webkit-box-shadow: inset 1px 3px 13px -4px rgba(0,0,0,0.60); 
+    box-shadow: inset 1px 3px 13px -4px rgba(0,0,0,0.60);
 }
 
 div#login-selection > a {
@@ -321,7 +330,7 @@ img#account-icons {
 }
 
 body {
-    background-image: url('test.png')
+    background-image: url('mapshot.png')
 }
 
 

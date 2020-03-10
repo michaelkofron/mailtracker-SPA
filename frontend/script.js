@@ -42,6 +42,16 @@ let listenerLibrary = {
             searchButton.style.display = "flex"
     
         })
+    },
+
+    xButtonOnAccounts: function(){
+        document.getElementById("x-button-account").addEventListener("click", function(){
+            let loginMainDiv = document.getElementsByClassName("login")
+            let loginButton = document.getElementById("login-icon")
+
+            loginMainDiv[0].style.display = "none"
+            loginButton.style.display = "flex"
+        })
     }
 }
 
@@ -52,5 +62,6 @@ document.addEventListener("DOMContentLoaded", (events) => {
     listenerLibrary.loginIconClick()
     listenerLibrary.searchIconClick()
     listenerLibrary.xButtonOnSearch() 
+    listenerLibrary.xButtonOnAccounts()
 
 })
