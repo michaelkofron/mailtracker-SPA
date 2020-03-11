@@ -45,6 +45,10 @@
     }
 }
 
+a:hover {
+    cursor: pointer;
+}
+
 div#top-head {
     display: none;
     animation: 0.25s ease-out 0s 1 slideDown;
@@ -338,9 +342,10 @@ img#account-icons {
 div#create-account-options {
     width: 390px;
     height: 390px;
+    flex-direction: column;
     background-color: rgb(50, 120, 254);
     display: none;
-    justify-content: center;
+    align-items: center;
 }
 
 div#create-account-text {
@@ -348,7 +353,7 @@ div#create-account-text {
     height: 50px;
     margin-top: 50px;
     display: flex;
-    background-color: orange;
+    background-color: none;
     align-items: center;
     text-align: center;
 }
@@ -357,7 +362,7 @@ div#back-button {
     height: 50px;
     width: 50px;
     justify-self: flex-start;
-    background-color: red;
+    background-color: none;
     margin-right: 20px;
     justify-content: center;
     align-items: center;
@@ -379,6 +384,86 @@ img#back-button-icon:hover {
     animation: 0.25s ease-out 0s 1 slowZoom;
     transform: scale(1.2);
 }
+
+div#create-username {
+    width: 250px;
+    height: 50px;
+    margin-top: 50px;
+    display: flex;
+    background-color: none;
+}
+
+input#create-username-input {
+    width: 100%;
+    color: white;
+    outline: none;
+    border: 0;
+    font-family: 'Noto Sans', sans-serif;
+    font-size: 15px;
+    border-bottom: 1px solid white;
+    background-color: transparent;
+}
+
+input#create-username-input::placeholder {
+    color: white;
+}
+
+input#create-username-input::-moz-placeholder {
+    color: white;
+}
+
+input#create-username-input::-webkit-input-placeholder {
+    color: white;
+}
+
+div#create-password {
+    width: 250px;
+    height: 50px;
+    margin-top: 20px;
+    display: flex;
+    background-color: none;
+}
+
+input#create-password-input {
+    width: 100%;
+    color: white;
+    outline: none;
+    border: 0;
+    font-family: 'Noto Sans', sans-serif;
+    font-size: 15px;
+    border-bottom: 1px solid white;
+    background-color: transparent;
+}
+
+input#create-password-input::placeholder {
+    color: white;
+}
+
+input#create-password-input::-moz-placeholder {
+    color: white;
+}
+
+input#create-password-input::-webkit-input-placeholder {
+    color: white;
+}
+
+div#create-button{
+    width: 100px;
+    height: 35px;
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: none;
+}
+
+div#create-button > a {
+    font-family: 'Noto Sans', sans-serif;
+    color: white;
+    font-size: 10px;
+}
+
+
 
 body {
     background-image: url('mapshot.png')
