@@ -56,7 +56,6 @@ let listenerLibrary = {
         document.getElementById("x-button-account").addEventListener("click", function(){
             let loginMainDiv = document.getElementsByClassName("login")
             let loginButton = document.getElementById("login-icon")
-
             loginMainDiv[0].style.display = "none"
             loginButton.style.display = "flex"
         })
@@ -73,7 +72,18 @@ let listenerLibrary = {
         })
     }, 
 
-    accountBackButton: function(){
+    loginTransition: function(){
+        document.getElementById("login-click").addEventListener("click", function(){
+            let loginDiv = document.getElementById("login-options")
+            let ogDiv = document.getElementById("create-account-selection")
+            let ogDiv2 = document.getElementById("login-selection")
+            ogDiv.style.display = "none"
+            ogDiv2.style.display = "none"
+            loginDiv.style.display = "flex"
+        })
+    },
+
+    createAccountBackButton: function(){
         document.getElementById("account-back-button").addEventListener("click", function(){
             let createAccountDiv = document.getElementById("create-account-options")
             let ogDiv = document.getElementById("create-account-selection")
@@ -81,6 +91,18 @@ let listenerLibrary = {
             createAccountDiv.style.display = "none"
             ogDiv.style.display = "flex"
             ogDiv2.style.display = "flex"
+        })
+    },
+
+    loginBackButton: function(){
+        document.getElementById("login-back-button").addEventListener("click", function(){
+            let loginDiv = document.getElementById("login-options")
+            let ogDiv = document.getElementById("create-account-selection")
+            let ogDiv2 = document.getElementById("login-selection")
+            loginDiv.style.display = "none"
+            ogDiv.style.display = "flex"
+            ogDiv2.style.display = "flex"
+            
         })
     }
 }
@@ -95,6 +117,8 @@ document.addEventListener("DOMContentLoaded", (events) => {
     listenerLibrary.xButtonOnSearch() 
     listenerLibrary.xButtonOnAccounts()
     listenerLibrary.createAnAccountTransition()
-    listenerLibrary.accountBackButton()
+    listenerLibrary.loginTransition()
+    listenerLibrary.createAccountBackButton()
+    listenerLibrary.loginBackButton()
 
 })
