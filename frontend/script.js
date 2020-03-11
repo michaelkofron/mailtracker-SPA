@@ -71,6 +71,17 @@ let listenerLibrary = {
             ogDiv2.style.display = "none"
             createAccountDiv.style.display = "flex"
         })
+    }, 
+
+    accountBackButton: function(){
+        document.getElementById("account-back-button").addEventListener("click", function(){
+            let createAccountDiv = document.getElementById("create-account-options")
+            let ogDiv = document.getElementById("create-account-selection")
+            let ogDiv2 = document.getElementById("login-selection")
+            createAccountDiv.style.display = "none"
+            ogDiv.style.display = "flex"
+            ogDiv2.style.display = "flex"
+        })
     }
 }
 
@@ -84,5 +95,6 @@ document.addEventListener("DOMContentLoaded", (events) => {
     listenerLibrary.xButtonOnSearch() 
     listenerLibrary.xButtonOnAccounts()
     listenerLibrary.createAnAccountTransition()
+    listenerLibrary.accountBackButton()
 
 })

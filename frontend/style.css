@@ -359,12 +359,25 @@ div#back-button {
     justify-self: flex-start;
     background-color: red;
     margin-right: 20px;
+    justify-content: center;
+    align-items: center;
 }
 
 div#create-account-text > h1 {
     font-family: 'Noto Sans', sans-serif;
     color: white;
     font-size: 20px;
+}
+
+img#back-button-icon {
+    margin-top: 7px;
+    max-width: 75%;
+    max-height: 75%;
+}
+
+img#back-button-icon:hover {
+    animation: 0.25s ease-out 0s 1 slowZoom;
+    transform: scale(1.2);
 }
 
 body {
