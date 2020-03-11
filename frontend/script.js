@@ -6,6 +6,14 @@
 
 let listenerLibrary = {
 
+    showSearchOnLoad: function(){
+        let searchMainDiv = document.getElementsByClassName("search")
+        let searchButton = document.getElementById("search-icon")
+
+        searchMainDiv[0].style.display = "flex"
+        searchButton.style.display = "none"
+    },
+
     searchIconClick: function(){
         document.getElementById("search").addEventListener("click", function(){
             let originalContent = document.getElementsByClassName("flex-container")
@@ -52,6 +60,17 @@ let listenerLibrary = {
             loginMainDiv[0].style.display = "none"
             loginButton.style.display = "flex"
         })
+    },
+
+    createAnAccountTransition: function(){
+        document.getElementById("create-account-click").addEventListener("click", function(){
+            let createAccountDiv = document.getElementById("create-account-options")
+            let ogDiv = document.getElementById("create-account-selection")
+            let ogDiv2 = document.getElementById("login-selection")
+            ogDiv.style.display = "none"
+            ogDiv2.style.display = "none"
+            createAccountDiv.style.display = "flex"
+        })
     }
 }
 
@@ -59,9 +78,11 @@ document.addEventListener("DOMContentLoaded", (events) => {
 
     console.log(Object.keys(listenerLibrary))
 
+    listenerLibrary.showSearchOnLoad()
     listenerLibrary.loginIconClick()
     listenerLibrary.searchIconClick()
     listenerLibrary.xButtonOnSearch() 
     listenerLibrary.xButtonOnAccounts()
+    listenerLibrary.createAnAccountTransition()
 
 })
