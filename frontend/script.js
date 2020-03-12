@@ -104,6 +104,37 @@ let listenerLibrary = {
             ogDiv2.style.display = "flex"
             
         })
+    },
+
+    createAccount: function(){
+        document.getElementById("create").addEventListener("click", function(){
+            let username = document.getElementById("create-username-input").value
+            let password = document.getElementById("create-password-input").value
+
+            let configurationObject = {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                  "Accept": "application/json"
+                },
+                body: JSON.stringify({
+                    username: `${username}`,
+                    password: `${password}`
+                })
+            }
+
+            fetch("http://localhost:3000/signup", configurationObject)
+                .then(function(response) {
+                    return response.json();
+                })
+                .then(function(object) {
+                    console.log(object)
+                })
+                .catch(function(error) {
+                    alert("error");
+                    console.log(error.message);
+                });
+        })
     }
 }
 
@@ -120,5 +151,7 @@ document.addEventListener("DOMContentLoaded", (events) => {
     listenerLibrary.loginTransition()
     listenerLibrary.createAccountBackButton()
     listenerLibrary.loginBackButton()
+
+    listenerLibrary.createAccount()
 
 })
