@@ -12,7 +12,9 @@ class UsersController < ApplicationController
 
         @user = User.create(username: params[:username], password: params[:password])
 
-        render json: @user
+        object = {user: @user, errors: @user.errors}
+
+        render json: object
 
 
 

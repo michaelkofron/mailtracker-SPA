@@ -1,5 +1,16 @@
 @import url('https://fonts.googleapis.com/css?family=Noto+Sans&display=swap');
 
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0
+    }
+    100% {
+        opacity: 1
+    }
+}
+
+
 @keyframes slideInFromLeft {
     0% {
       transform: translateX(-100%);
@@ -15,6 +26,16 @@
     }
     100% {
         transform: translateX(-100%)
+    }
+}
+
+@keyframes slideOutFromRight2 {
+    0% {
+        transform: translateX(0)
+    }
+    100% {
+        transform: translateX(-100%);
+        display: none
     }
 }
 
@@ -45,6 +66,10 @@
     }
 }
 
+div#master {
+    display: none
+}
+
 a:hover {
     cursor: pointer;
 }
@@ -52,11 +77,19 @@ a:hover {
 div#top-head {
     display: none;
     animation: 0.25s ease-out 0s 1 slideDown;
-    height: 20px;
+    height: 30px;
     width: 390px;
+    justify-content: center;
+    align-items: center;
     background-color: rgb(50, 120, 254);
     margin-bottom: 10px;
     border-radius: 10px;
+}
+
+p#p-top-head {
+    font-family: 'Noto Sans', sans-serif;
+    color: white;
+    animation: 2s fadeIn;
 }
 
 img {

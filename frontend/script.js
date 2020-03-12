@@ -4,6 +4,37 @@
     //})    
 //}
 
+let dynamicLibrary = {
+
+    //changes color bar for an error, displays error, else displays a good message in blue
+    messageBar: function(message){
+        let bar = document.getElementById("top-head")
+        document.getElementById("p-top-head").innerText = message
+        if (message.includes("Password") || message.includes("Username")){
+            bar.style.backgroundColor = "red"
+        } else {
+            bar.style.backgroundColor = "rgb(50, 120, 254)"
+        }
+
+        bar.style.display = "flex"
+
+        setTimeout(function(){
+            bar.style.display = "none"
+        }, 5000)
+    },
+
+    //currently clears account divs, doesnt do anything else
+    hideOnLogin: function(){
+
+        let loginMainDiv = document.getElementsByClassName("login")
+        let loginButton = document.getElementById("login-icon")
+        loginMainDiv[0].style.display = "none"
+        loginButton.style.display = "flex"
+        // add function that when a user is logged in, clears the user button and shows log out only
+        //what is written right now is temporary
+    }
+}
+
 let listenerLibrary = {
 
     showSearchOnLoad: function(){
@@ -129,6 +160,18 @@ let listenerLibrary = {
                 })
                 .then(function(object) {
                     console.log(object)
+                    if (object["user"]["id"] !== null){
+                        dynamicLibrary.messageBar(`Welcome, ${object["user"]["username"]}!`)
+                        dynamicLibrary.hideOnLogin()
+                        document.getElementById("master").innerText = object["user"]["username"] //store current username
+                    } else {
+                        if (object["errors"]["password"]){
+                            dynamicLibrary.messageBar(`Password ${object["errors"]["password"][0]}`)
+                        } else if (object["errors"]["username"]){
+                            dynamicLibrary.messageBar(`Username ${object["errors"]["username"][0]}`)
+                        }
+                    }
+
                 })
                 .catch(function(error) {
                     alert("error");
