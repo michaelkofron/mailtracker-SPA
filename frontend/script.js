@@ -23,28 +23,35 @@ let dynamicLibrary = {
         }, 5000)
     },
 
-    //currently clears account divs, doesnt do anything else
+    //currently clears account divs, doesnt do anything else (used after successful login)
     hideOnLogin: function(){
 
         let loginMainDiv = document.getElementsByClassName("login")
         let loginButton = document.getElementById("login-icon")
+        let loginBox = document.getElementById("login-box")
+        let accountDiv = document.getElementById("logged-in")
         loginMainDiv[0].style.display = "none"
+        loginBox.style.display = "none"
+        accountDiv.style.display = "flex"
         loginButton.style.display = "flex"
         // add function that when a user is logged in, clears the user button and shows log out only
         //what is written right now is temporary
-    }
-}
+    },
 
-let listenerLibrary = {
-
+    //displays search bar on load, can still be exited
     showSearchOnLoad: function(){
         let searchMainDiv = document.getElementsByClassName("search")
         let searchButton = document.getElementById("search-icon")
 
         searchMainDiv[0].style.display = "flex"
         searchButton.style.display = "none"
-    },
+    }
+    
+}
 
+let listenerLibrary = {
+
+    //handles search or 'add tracking number' icon
     searchIconClick: function(){
         document.getElementById("search").addEventListener("click", function(){
             let originalContent = document.getElementsByClassName("flex-container")
@@ -60,19 +67,30 @@ let listenerLibrary = {
         })
     },
 
+    //handles login click, displays user account if already logged in (if there is a loaded name)
     loginIconClick: function(){
         document.getElementById("login").addEventListener("click", function(){
+
             let loginMainDiv = document.getElementsByClassName("login")
             let loginButton = document.getElementById("login-icon")
-            if (loginMainDiv[0].style.display == "flex"){
-                loginMainDiv[0].style.display = "none"
+            let loginBox = document.getElementById("login-box")
+            let accountDiv = document.getElementById("logged-in")
+            if (document.getElementById("master").innerText === ""){
+                loginButton.style.display = "none"
+                accountDiv.style.display = "none"
+                loginBox.style.display = "flex"
+                loginMainDiv[0].style.display = "flex"
             } else {
                 loginButton.style.display = "none"
-                loginMainDiv[0].style.display = "flex "
+                loginMainDiv[0].style.display = "flex"
+                accountDiv.style.display = "flex"
+
             }
+
         })
     },
 
+    //x button for search
     xButtonOnSearch: function(){
         document.getElementById("x-button").addEventListener("click", function(){
             let searchMainDiv = document.getElementsByClassName("search")
@@ -82,7 +100,8 @@ let listenerLibrary = {
     
         })
     },
-
+    
+    //x button for accounts information
     xButtonOnAccounts: function(){
         document.getElementById("x-button-account").addEventListener("click", function(){
             let loginMainDiv = document.getElementsByClassName("login")
@@ -92,6 +111,7 @@ let listenerLibrary = {
         })
     },
 
+    //goes to create account when clicked
     createAnAccountTransition: function(){
         document.getElementById("create-account-click").addEventListener("click", function(){
             let createAccountDiv = document.getElementById("create-account-options")
@@ -103,6 +123,7 @@ let listenerLibrary = {
         })
     }, 
 
+    //goes to sign in when clicked
     loginTransition: function(){
         document.getElementById("login-click").addEventListener("click", function(){
             let loginDiv = document.getElementById("login-options")
@@ -114,6 +135,7 @@ let listenerLibrary = {
         })
     },
 
+    //back button functionality for create an account
     createAccountBackButton: function(){
         document.getElementById("account-back-button").addEventListener("click", function(){
             let createAccountDiv = document.getElementById("create-account-options")
@@ -125,6 +147,7 @@ let listenerLibrary = {
         })
     },
 
+    //back button functionality for log in
     loginBackButton: function(){
         document.getElementById("login-back-button").addEventListener("click", function(){
             let loginDiv = document.getElementById("login-options")
@@ -137,6 +160,7 @@ let listenerLibrary = {
         })
     },
 
+    //sends account creation POST to API and returns dynamic library message based on returned JSON
     createAccount: function(){
         document.getElementById("create").addEventListener("click", function(){
             let username = document.getElementById("create-username-input").value
@@ -180,6 +204,7 @@ let listenerLibrary = {
         })
     },
 
+    //sends account login POST, checks password, displays dynamic library message based on API returned JSON
     loginAccount: function(){
         document.getElementById("enter").addEventListener("click", function(){
             console.log("click")
@@ -223,6 +248,18 @@ let listenerLibrary = {
 
         })
 
+    },
+
+    logOut: function(){
+        document.getElementById("logout").addEventListener("click", function(){
+            document.getElementById("master").innerText = ""
+            let inputs = document.getElementsByTagName("input")
+            Array.from(inputs).forEach(function(element){
+                element.value = ""
+            })
+            document.getElementById("x-button-account").click()
+
+        })
     }
 }
 
@@ -230,17 +267,22 @@ document.addEventListener("DOMContentLoaded", (events) => {
 
     console.log(Object.keys(listenerLibrary))
 
-    listenerLibrary.showSearchOnLoad()
+    dynamicLibrary.showSearchOnLoad()
+
     listenerLibrary.loginIconClick()
     listenerLibrary.searchIconClick()
+
     listenerLibrary.xButtonOnSearch() 
     listenerLibrary.xButtonOnAccounts()
+
     listenerLibrary.createAnAccountTransition()
     listenerLibrary.loginTransition()
+
     listenerLibrary.createAccountBackButton()
     listenerLibrary.loginBackButton()
 
     listenerLibrary.createAccount()
     listenerLibrary.loginAccount()
+    listenerLibrary.logOut()
 
 })

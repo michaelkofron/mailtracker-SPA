@@ -609,6 +609,54 @@ div#enter-button > a {
 }
 
 
+/* LOGGED IN MINI-DIV */
+
+div#logged-in {
+    height: 100px;
+    width: 200px;
+    flex-direction: column;
+    display: none;
+    justify-content: center;
+}
+
+div#username-div {
+    height: 25px;
+    width: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(50, 120, 254);
+}
+
+div#username-div > p {
+    font-family: 'Noto Sans', sans-serif;
+    color: white;
+}
+
+div#exit {
+    width: 200px;
+    height: 75px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: none;
+}
+
+div#exit > div {
+    height: 50px;
+    width: 70px;
+    background-color: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+a#logout {
+    font-family: 'Noto Sans', sans-serif;
+    color: rgb(50, 120, 254);
+}
+
+
 
 
 
