@@ -2,7 +2,7 @@ class UsersController < ApplicationController
 
 
     def all
-        @users = User.all
+        users = User.all
 
         render json: @users
 
@@ -10,9 +10,9 @@ class UsersController < ApplicationController
 
     def create
 
-        @user = User.create(username: params[:username], password: params[:password])
+        user_account = User.create(username: params[:username], password: params[:password])
 
-        object = {user: @user, errors: @user.errors}
+        object = {user: user_account, errors: user_account.errors}
 
         render json: object
 
@@ -21,14 +21,14 @@ class UsersController < ApplicationController
     end
 
     def login
-        @user = User.find_by(username: params[:username])
+        user_account = User.find_by(username: params[:username])
 
-        if @user && @user.authenticate(params[:password])
-            render json: {user: @user}
+        if user_account && user_account.authenticate(params[:password])
+            render json: {user: user_account}
         else
-            if @user == nil
+            if user_account == nil
                 render json: {user: {id: nil}, errors: "Username does not exist"}
-            elsif @user && !@user.authenticate(params[:password])
+            elsif user_account && !user_account.authenticate(params[:password])
                 render json: {user: {id: nil}, errors: "Password is incorrect"}
             end
         end
