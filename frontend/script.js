@@ -178,6 +178,51 @@ let listenerLibrary = {
                     console.log(error.message);
                 });
         })
+    },
+
+    loginAccount: function(){
+        document.getElementById("enter").addEventListener("click", function(){
+            console.log("click")
+            let username = document.getElementById("login-username-input").value
+            let password = document.getElementById("login-password-input").value
+
+            let configurationObject = {
+                method: "POST",
+                headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+                },
+                body: JSON.stringify({
+                    username: `${username}`,
+                    password: `${password}`
+                })
+            }
+
+            fetch("http://localhost:3000/login", configurationObject)
+                .then(function(response) {
+                    return response.json();
+                })
+                .then(function(object) {
+                    console.log(object)
+                    if (object["user"]["id"] !== null){
+                        dynamicLibrary.messageBar(`Welcome, ${object["user"]["username"]}!`)
+                        dynamicLibrary.hideOnLogin()
+                        document.getElementById("master").innerText = object["user"]["username"] //store current username
+                    } else {
+                        if (object["errors"]){
+                            dynamicLibrary.messageBar(`${object["errors"]}`)
+                        } 
+                    }
+
+                })
+                .catch(function(error) {
+                    alert("error");
+                    console.log(error.message);
+                });
+
+
+        })
+
     }
 }
 
@@ -196,5 +241,6 @@ document.addEventListener("DOMContentLoaded", (events) => {
     listenerLibrary.loginBackButton()
 
     listenerLibrary.createAccount()
+    listenerLibrary.loginAccount()
 
 })

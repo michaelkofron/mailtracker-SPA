@@ -3,5 +3,6 @@ Rails.application.routes.draw do
 
   get "/link", to: "links#new"
   post "/signup", to: "users#create", as: :users
+  post "/login", to: "users#login"
   get "/users", to: "users#all"
 end
