@@ -1,3 +1,0 @@
-class TrackingNumber < ApplicationRecord
-
-end
