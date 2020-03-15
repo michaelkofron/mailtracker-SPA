@@ -6,6 +6,35 @@
 
 let dynamicLibrary = {
 
+    
+
+    showTrackingNumbersOnEntry: function(userName){
+
+        let configurationObject = {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "Accept": "application/json"
+            },
+            body: JSON.stringify({
+                username: `${userName}`
+            })
+        }
+
+        fetch("http://localhost:3000/loadnumbers", configurationObject)
+            .then(function(response){
+                return response.json()
+            })
+            .then(function(object){
+                console.log(object)
+            })
+            .catch(function(error){
+                console.log(error)
+                alert("error")
+            })
+
+    },
+
     //changes color bar for an error, displays error, else displays a good message in blue
 
     messageBar: function(message){
@@ -52,7 +81,6 @@ let dynamicLibrary = {
 
 let listenerLibrary = {
 
-    
 
     addTrackingNumber: function(){
         document.getElementById("search-submit-icon").addEventListener("click", function(){
@@ -286,6 +314,7 @@ let listenerLibrary = {
                     if (object["user"]["id"] !== null){
                         dynamicLibrary.messageBar(`Welcome, ${object["user"]["username"]}!`)
                         dynamicLibrary.hideOnLogin()
+                        dynamicLibrary.showTrackingNumbersOnEntry(object["user"]["username"]) //find this users numbers
                         document.getElementById("master").innerText = object["user"]["username"] //store current username
                     } else {
                         if (object["errors"]){

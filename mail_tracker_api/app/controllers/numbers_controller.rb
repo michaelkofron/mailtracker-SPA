@@ -23,4 +23,11 @@ class NumbersController < ApplicationController
         end
 
     end
+
+    def load
+        user = User.find_by(username: params[:username])
+
+        render json: user.numbers
+
+    end
 end
