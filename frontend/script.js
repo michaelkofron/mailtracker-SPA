@@ -6,33 +6,24 @@
 
 let dynamicLibrary = {
 
-    
 
-    showTrackingNumbersOnEntry: function(userName){
+    //creates necessary ( for now ) HTML objects to add tracking numbers
+    addToSearch: function(string){
+        let trackingDiv = document.getElementById("tracking-numbers-div")
+        let numberDiv = document.createElement('div')
+        numberDiv.setAttribute("class", "tracking-number")
+        let carrier = document.createElement('div')
+        carrier.setAttribute("class", "carrier")
+        carrier.innerHTML = "<img class='carrier-pic' src='carrier-image.jpg'>"
+        let number = document.createElement('div')
+        number.setAttribute("class", "number")
+        let numberContainer = document.createElement('div')
+        numberContainer.setAttribute("class", "number-container")
+        let p = document.createElement('p')
+        p.innerText = string
 
-        let configurationObject = {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              "Accept": "application/json"
-            },
-            body: JSON.stringify({
-                username: `${userName}`
-            })
-        }
-
-        fetch("http://localhost:3000/loadnumbers", configurationObject)
-            .then(function(response){
-                return response.json()
-            })
-            .then(function(object){
-                console.log(object)
-            })
-            .catch(function(error){
-                console.log(error)
-                alert("error")
-            })
-
+        numberDiv.appendChild(carrier)
+        trackingDiv.appendChild(numberDiv).appendChild(number).appendChild(numberContainer).appendChild(p)
     },
 
     //changes color bar for an error, displays error, else displays a good message in blue
@@ -75,11 +66,47 @@ let dynamicLibrary = {
 
         searchMainDiv[0].style.display = "flex"
         searchButton.style.display = "none"
+    },
+
+    clearSearch: function(){
+        document.getElementById("tracking-numbers-div").innerHTML = ""
+        document.getElementById("search-input").value = ""
     }
     
 }
 
 let listenerLibrary = {
+
+    showTrackingNumbersOnEntry: function(userName){
+
+        let configurationObject = {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "Accept": "application/json"
+            },
+            body: JSON.stringify({
+                username: `${userName}`
+            })
+        }
+
+        fetch("http://localhost:3000/loadnumbers", configurationObject)
+            .then(function(response){
+                return response.json()
+            })
+            .then(function(object){
+                console.log(object)
+
+                for (i = 0; i < object.length; i++){
+                    dynamicLibrary.addToSearch(object[i].number)
+                }
+            })
+            .catch(function(error){
+                console.log(error)
+                alert("error")
+            })
+
+    },
 
 
     addTrackingNumber: function(){
@@ -106,21 +133,11 @@ let listenerLibrary = {
                 .then(function(object){
                     console.log(object)
 
-                    let trackingDiv = document.getElementById("tracking-numbers-div")
-                    let numberDiv = document.createElement('div')
-                    numberDiv.setAttribute("class", "tracking-number")
-                    let carrier = document.createElement('div')
-                    carrier.setAttribute("class", "carrier")
-                    carrier.innerHTML = "<img class='carrier-pic' src='carrier-image.jpg'>"
-                    let number = document.createElement('div')
-                    number.setAttribute("class", "number")
-                    let numberContainer = document.createElement('div')
-                    numberContainer.setAttribute("class", "number-container")
-                    let p = document.createElement('p')
-                    p.innerText = object["number"]["number"]
-
-                    numberDiv.appendChild(carrier)
-                    trackingDiv.appendChild(numberDiv).appendChild(number).appendChild(numberContainer).appendChild(p)
+                    if (object["number"]["id"] == null){
+                        dynamicLibrary.messageBar("You must be logged in to perform this action.")
+                    } else {
+                        dynamicLibrary.addToSearch(object["number"]["number"])
+                    }
 
                 })
                 .catch(function(error){
@@ -311,10 +328,11 @@ let listenerLibrary = {
                 })
                 .then(function(object) {
                     console.log(object)
+                    dynamicLibrary.clearSearch()
                     if (object["user"]["id"] !== null){
                         dynamicLibrary.messageBar(`Welcome, ${object["user"]["username"]}!`)
                         dynamicLibrary.hideOnLogin()
-                        dynamicLibrary.showTrackingNumbersOnEntry(object["user"]["username"]) //find this users numbers
+                        listenerLibrary.showTrackingNumbersOnEntry(object["user"]["username"]) //find this users numbers
                         document.getElementById("master").innerText = object["user"]["username"] //store current username
                     } else {
                         if (object["errors"]){
@@ -336,6 +354,7 @@ let listenerLibrary = {
     logOut: function(){
         document.getElementById("logout").addEventListener("click", function(){
             document.getElementById("master").innerText = ""
+            dynamicLibrary.clearSearch()
             let inputs = document.getElementsByTagName("input")
             Array.from(inputs).forEach(function(element){
                 element.value = ""

@@ -16,9 +16,10 @@ class NumbersController < ApplicationController
             object = {number: new_number, errors: new_number.errors}
             render json: object
         else
-            new_number = Number.new(number: params[:number])
+            new_number = Number.create(number: params[:number])
             object = {number: new_number, errors: new_number.errors}
             render json: object
+            new_number.destroy
 
         end
 
