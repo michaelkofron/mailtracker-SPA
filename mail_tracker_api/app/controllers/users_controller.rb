@@ -16,8 +16,6 @@ class UsersController < ApplicationController
 
         render json: object
 
-
-
     end
 
     def login

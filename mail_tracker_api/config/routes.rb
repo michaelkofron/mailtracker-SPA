@@ -3,6 +3,8 @@ Rails.application.routes.draw do
 
   get "/link", to: "links#new"
   post "/signup", to: "users#create", as: :users
+  post "/submitnumber", to: "numbers#create"
   post "/login", to: "users#login"
   get "/users", to: "users#all"
+  get "/numbers", to: "numbers#all"
 end

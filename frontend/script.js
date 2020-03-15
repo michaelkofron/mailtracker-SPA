@@ -7,6 +7,7 @@
 let dynamicLibrary = {
 
     //changes color bar for an error, displays error, else displays a good message in blue
+
     messageBar: function(message){
         let bar = document.getElementById("top-head")
         document.getElementById("p-top-head").innerText = message
@@ -51,7 +52,46 @@ let dynamicLibrary = {
 
 let listenerLibrary = {
 
+    
+
+    addTrackingNumber: function(){
+        document.getElementById("search-submit-icon").addEventListener("click", function(){
+            let searchValue = document.getElementById("search-input").value
+            let userName = document.getElementById("master").innerText
+
+            let configurationObject = {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                  "Accept": "application/json"
+                },
+                body: JSON.stringify({
+                    number: `${searchValue}`,
+                    username: `${userName}`
+                })
+            }
+
+            fetch("http://localhost:3000/submitnumber", configurationObject)
+                .then(function(response){
+                    return response.json()
+                })
+                .then(function(object){
+                    console.log(object)
+
+                    console.log(object["number"]["number"])
+
+                })
+                .catch(function(error){
+                    console.log(error)
+                    alert('error')
+                })
+
+
+        })
+    },
+
     //handles search or 'add tracking number' icon
+
     searchIconClick: function(){
         document.getElementById("search").addEventListener("click", function(){
             let originalContent = document.getElementsByClassName("flex-container")
@@ -268,6 +308,8 @@ document.addEventListener("DOMContentLoaded", (events) => {
     console.log(Object.keys(listenerLibrary))
 
     dynamicLibrary.showSearchOnLoad()
+
+    listenerLibrary.addTrackingNumber()
 
     listenerLibrary.loginIconClick()
     listenerLibrary.searchIconClick()
