@@ -78,7 +78,21 @@ let listenerLibrary = {
                 .then(function(object){
                     console.log(object)
 
-                    console.log(object["number"]["number"])
+                    let trackingDiv = document.getElementById("tracking-numbers-div")
+                    let numberDiv = document.createElement('div')
+                    numberDiv.setAttribute("class", "tracking-number")
+                    let carrier = document.createElement('div')
+                    carrier.setAttribute("class", "carrier")
+                    carrier.innerHTML = "<img class='carrier-pic' src='carrier-image.jpg'>"
+                    let number = document.createElement('div')
+                    number.setAttribute("class", "number")
+                    let numberContainer = document.createElement('div')
+                    numberContainer.setAttribute("class", "number-container")
+                    let p = document.createElement('p')
+                    p.innerText = object["number"]["number"]
+
+                    numberDiv.appendChild(carrier)
+                    trackingDiv.appendChild(numberDiv).appendChild(number).appendChild(numberContainer).appendChild(p)
 
                 })
                 .catch(function(error){
