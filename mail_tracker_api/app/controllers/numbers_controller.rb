@@ -31,4 +31,14 @@ class NumbersController < ApplicationController
         render json: user.numbers
 
     end
+
+    def delete
+        user = User.find_by(username: params[:username])
+
+        number = user.numbers.find_by(number: params[:number])
+
+        number.destroy
+
+        render json: number
+    end
 end

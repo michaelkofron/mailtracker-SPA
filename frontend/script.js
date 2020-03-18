@@ -24,6 +24,8 @@ let dynamicLibrary = {
 
         numberDiv.appendChild(carrier)
         trackingDiv.appendChild(numberDiv).appendChild(number).appendChild(numberContainer).appendChild(p)
+
+        listenerLibrary.deleteTrackingNumber(carrier)
     },
 
     //changes color bar for an error, displays error, else displays a good message in blue
@@ -105,7 +107,6 @@ let listenerLibrary = {
                 console.log(error)
                 alert("error")
             })
-
     },
 
 
@@ -146,6 +147,37 @@ let listenerLibrary = {
                 })
 
 
+        })
+    },
+
+    deleteTrackingNumber: function(div){
+        div.addEventListener("click", function(){
+            let number = div.parentElement.children[1].innerText
+            let userName = document.getElementById("master").innerText
+
+            let configurationObject = {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                  "Accept": "application/json"
+                },
+                body: JSON.stringify({
+                    number: `${number}`,
+                    username: `${userName}`
+                })
+            }
+
+            fetch("http://localhost:3000/deletenumber", configurationObject)
+                .then(function(response){
+                    return response.json()
+                })
+                .then(function(object){
+                    div.parentElement.style.display = "none"
+                })
+                .catch(function(error){
+                    console.log(error)
+                    alert('error')
+                })
         })
     },
 

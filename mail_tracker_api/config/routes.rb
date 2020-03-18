@@ -8,6 +8,7 @@ Rails.application.routes.draw do
 
   post "/submitnumber", to: "numbers#create" #submits a number
   post "/loadnumbers", to: "numbers#load" #post request on sign in, returns all of a user's numbers
+  post "/deletenumber", to: "numbers#delete" #post request when delete button is clicked
 
   get "/users", to: "users#all" #all users
   get "/numbers", to: "numbers#all" #all numbers
