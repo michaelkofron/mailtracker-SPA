@@ -4,6 +4,23 @@
     //})    
 //}
 
+function addGoogleMap() {
+    let script = document.getElementById("googlescript")
+    script.src = `http://maps.googleapis.com/maps/api/js?key=${MAPKEY}&callback=initMap`
+}
+
+function initMap() {
+    // The location of Uluru
+    var uluru = {lat: -25.344, lng: 131.036};
+    // The map, centered at Uluru
+    var map = new google.maps.Map(
+        document.getElementById("map"), {zoom: 4, center: uluru});
+    // The marker, positioned at Uluru
+    var marker = new google.maps.Marker({position: uluru, map: map});
+}
+
+
+
 let dynamicLibrary = {
 
 
@@ -70,7 +87,7 @@ let dynamicLibrary = {
         const searchMainDiv = document.getElementsByClassName("search")
         const searchButton = document.getElementById("search-icon")
 
-        searchMainDiv[0].style.display = "flex"
+        searchMainDiv[0].style.display = "inline-flex"
         searchButton.style.display = "none"
     },
 
@@ -140,7 +157,9 @@ let listenerLibrary = {
             .then(function(object){
                 console.log(object)
 
-                if (object["number"]["id"] == null){
+                if (object["number"]["user_id"] == null){
+                    dynamicLibrary.messageBar("You must be logged in", "red")
+                } else if (object["number"]["id"] == null){
                     dynamicLibrary.messageBar(object["errors"]["number"][0], "red")
                 } else {
                     dynamicLibrary.addToSearch(object["number"]["number"])
@@ -202,7 +221,7 @@ let listenerLibrary = {
             } else {
                 searchButton.style.display = "none"
                 originalContent[0].setAttribute("style", "animation: 0.1s ease-out 0s 1 slideDown")
-                searchMainDiv[0].style.display = "flex"
+                searchMainDiv[0].style.display = "inline-flex"
             }
         })
     },
@@ -218,12 +237,12 @@ let listenerLibrary = {
             if (document.getElementById("master").innerText === ""){
                 loginButton.style.display = "none"
                 accountDiv.style.display = "none"
-                loginBox.style.display = "flex"
-                loginMainDiv[0].style.display = "flex"
+                loginBox.style.display = "inline-flex"
+                loginMainDiv[0].style.display = "inline-flex"
             } else {
                 loginButton.style.display = "none"
-                loginMainDiv[0].style.display = "flex"
-                accountDiv.style.display = "flex"
+                loginMainDiv[0].style.display = "inline-flex"
+                accountDiv.style.display = "inline-flex"
 
             }
 
@@ -407,9 +426,9 @@ let listenerLibrary = {
 }
 
 document.addEventListener("DOMContentLoaded", (events) => {
-
     console.log(Object.keys(listenerLibrary))
 
+    addGoogleMap()
     dynamicLibrary.showSearchOnLoad()
 
     listenerLibrary.addTrackingNumber()

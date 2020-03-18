@@ -75,6 +75,9 @@ a:hover {
 }
 
 div#top-head {
+    z-index: 1;
+    margin-left: 10px;
+    position: relative;
     display: none;
     animation: 0.25s ease-out 0s 1 slideDown;
     height: 30px;
@@ -116,6 +119,9 @@ img:hover {
 }
 
 .flex-container {
+    z-index: 1;
+    width: 50px;
+    position: relative;
     animation: 0.75s ease-out 0s 1 slideInFromLeft;
     display: flex;
     flex-direction: column;
@@ -125,11 +131,16 @@ img:hover {
 .flex-container > div {
     width: 50px;
     height: 50px;
-    margin: 10px;
+    margin-left: 10px;
+    margin-bottom: 10px;
     text-align: center;
     line-height: 75px;
     font-size: 30px;
     border-radius: 5px;
+}
+
+div#search-icon {
+    margin-top: 85px;
 }
 
 .flex-container > div:hover {
@@ -143,6 +154,10 @@ img:hover {
 }
 
 .search {
+    z-index: 1;
+    margin-left: 10px;
+    margin-top: 90px;
+    position: relative;
     animation: 0.25s ease-out 0s 1 slideInFromLeft;
     display: none;
     flex-direction: column;
@@ -150,6 +165,7 @@ img:hover {
 }
 
 .search > div {
+    z-index: 1;
     background-color: white;
     width: 390px;
     height: 140px;
@@ -296,6 +312,9 @@ div.edit-delete {
 }
 
 .login {
+    margin-left: 10px;
+    position: relative;
+    z-index: 1;
     animation: 0.25s ease-out 0s 1 slideInFromLeft;
     display: none;
     flex-direction: column;
@@ -304,8 +323,8 @@ div.edit-delete {
 
 .login > div {
     background-color: white;
-    width: 390px;
-    height: 390px;
+    width: 300px;
+    height: 300px;
     flex-direction: column;
     overflow: auto;
     margin-bottom: 10px;
@@ -323,8 +342,8 @@ div#account-exit-button {
 }
 
 div#create-account-selection {
-    width: 390px;
-    height: 195px;
+    width: 300px;
+    height: 150px;
     display: flex;
 
     /* CHANGE CHANGE CHANGE */
@@ -342,8 +361,8 @@ div#create-account-selection:hover {
 }
 
 div#login-selection {
-    width: 390px;
-    height: 195px;
+    width: 300px;
+    height: 150px;
     justify-content: center;
     align-items: center;
     display: flex;
@@ -375,8 +394,8 @@ img#account-icons {
 /* CREATE ACCOUNT CREATE ACCOUNT CREATE ACCOUNT CREATE ACCOUNT CREATE ACCOUNT */
 
 div#create-account-options {
-    width: 390px;
-    height: 390px;
+    width: 300px;
+    height: 300px;
     flex-direction: column;
     background-color: rgb(50, 120, 254);
     display: none;
@@ -386,7 +405,7 @@ div#create-account-options {
 div#create-account-text {
     width: 300px;
     height: 50px;
-    margin-top: 50px;
+    margin-top: 30px;
     display: flex;
     background-color: none;
     align-items: center;
@@ -398,7 +417,8 @@ div#back-button {
     width: 50px;
     justify-self: flex-start;
     background-color: none;
-    margin-right: 20px;
+    margin-right: 10px;
+    margin-left: 10px;
     justify-content: center;
     align-items: center;
 }
@@ -423,7 +443,7 @@ img#back-button-icon:hover {
 div#create-username {
     width: 250px;
     height: 50px;
-    margin-top: 50px;
+    margin-top: 25px;
     display: flex;
     background-color: none;
 }
@@ -504,8 +524,8 @@ div#create-button > a {
 /* LOGIN LOGIN LOGIN LOGIN LOGIN LOGIN LOGIN LOGIN LOGIN */
 
 div#login-options {
-    width: 390px;
-    height: 390px;
+    width: 300px;
+    height: 300px;
     flex-direction: column;
     background-color: none;
     display: none;
@@ -515,7 +535,7 @@ div#login-options {
 div#login-text {
     width: 300px;
     height: 50px;
-    margin-top: 50px;
+    margin-top: 30px;
     display: flex;
     background-color: none;
     align-items: center;
@@ -531,7 +551,7 @@ div#login-text > h1 {
 div#login-username {
     width: 250px;
     height: 50px;
-    margin-top: 50px;
+    margin-top: 25px;
     display: flex;
     background-color: none;
 }
@@ -657,7 +677,14 @@ a#logout {
 }
 
 
-
+div#map {
+    display: flex;
+    position: absolute;
+    z-index: 1;
+    height: 100vh;
+    width: 100vw;
+    background-color: none;
+}
 
 
 
@@ -665,7 +692,8 @@ a#logout {
 
 
 body {
-    background-image: url('mapshot.png')
+    margin-left: 0;
+    margin-top: 0;
 }
 
 
