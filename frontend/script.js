@@ -9,17 +9,17 @@ let dynamicLibrary = {
 
     //creates necessary ( for now ) HTML objects to add tracking numbers
     addToSearch: function(string){
-        let trackingDiv = document.getElementById("tracking-numbers-div")
-        let numberDiv = document.createElement('div')
+        const trackingDiv = document.getElementById("tracking-numbers-div")
+        const numberDiv = document.createElement('div')
         numberDiv.setAttribute("class", "tracking-number")
-        let carrier = document.createElement('div')
+        const carrier = document.createElement('div')
         carrier.setAttribute("class", "carrier")
         carrier.innerHTML = "<img class='carrier-pic' src='carrier-image.jpg'>"
-        let number = document.createElement('div')
+        const number = document.createElement('div')
         number.setAttribute("class", "number")
-        let numberContainer = document.createElement('div')
+        const numberContainer = document.createElement('div')
         numberContainer.setAttribute("class", "number-container")
-        let p = document.createElement('p')
+        const p = document.createElement('p')
         p.innerText = string
 
         numberDiv.appendChild(carrier)
@@ -31,7 +31,7 @@ let dynamicLibrary = {
     //changes color bar for an error, displays error, else displays a good message in blue
 
     messageBar: function(message){
-        let bar = document.getElementById("top-head")
+        const bar = document.getElementById("top-head")
         document.getElementById("p-top-head").innerText = message
         if (message.includes("Password") || message.includes("Username")){
             bar.style.backgroundColor = "red"
@@ -49,10 +49,10 @@ let dynamicLibrary = {
     //currently clears account divs, doesnt do anything else (used after successful login)
     hideOnLogin: function(){
 
-        let loginMainDiv = document.getElementsByClassName("login")
-        let loginButton = document.getElementById("login-icon")
-        let loginBox = document.getElementById("login-box")
-        let accountDiv = document.getElementById("logged-in")
+        const loginMainDiv = document.getElementsByClassName("login")
+        const loginButton = document.getElementById("login-icon")
+        const loginBox = document.getElementById("login-box")
+        const accountDiv = document.getElementById("logged-in")
         loginMainDiv[0].style.display = "none"
         loginBox.style.display = "none"
         accountDiv.style.display = "flex"
@@ -63,8 +63,8 @@ let dynamicLibrary = {
 
     //displays search bar on load, can still be exited
     showSearchOnLoad: function(){
-        let searchMainDiv = document.getElementsByClassName("search")
-        let searchButton = document.getElementById("search-icon")
+        const searchMainDiv = document.getElementsByClassName("search")
+        const searchButton = document.getElementById("search-icon")
 
         searchMainDiv[0].style.display = "flex"
         searchButton.style.display = "none"
@@ -112,8 +112,10 @@ let listenerLibrary = {
 
     addTrackingNumber: function(){
         document.getElementById("search-submit-icon").addEventListener("click", function(){
-            let searchValue = document.getElementById("search-input").value
-            let userName = document.getElementById("master").innerText
+            const searchValue = document.getElementById("search-input").value
+            const userName = document.getElementById("master").innerText
+
+            const trackingAmount = document.getElementsByClassName("number-container").length
 
             let configurationObject = {
                 method: "POST",
@@ -127,7 +129,8 @@ let listenerLibrary = {
                 })
             }
 
-            fetch("http://localhost:3000/submitnumber", configurationObject)
+            if (trackingAmount < 15){
+                fetch("http://localhost:3000/submitnumber", configurationObject)
                 .then(function(response){
                     return response.json()
                 })
@@ -146,14 +149,19 @@ let listenerLibrary = {
                     alert('error')
                 })
 
+            } else {
+                dynamicLibrary.messageBar("Tracking limit reached!")
+            }
+
+            
 
         })
     },
 
     deleteTrackingNumber: function(div){
         div.addEventListener("click", function(){
-            let number = div.parentElement.children[1].innerText
-            let userName = document.getElementById("master").innerText
+            const number = div.parentElement.children[1].innerText
+            const userName = document.getElementById("master").innerText
 
             let configurationObject = {
                 method: "POST",
@@ -185,9 +193,9 @@ let listenerLibrary = {
 
     searchIconClick: function(){
         document.getElementById("search").addEventListener("click", function(){
-            let originalContent = document.getElementsByClassName("flex-container")
-            let searchMainDiv = document.getElementsByClassName("search")
-            let searchButton = document.getElementById("search-icon")
+            const originalContent = document.getElementsByClassName("flex-container")
+            const searchMainDiv = document.getElementsByClassName("search")
+            const searchButton = document.getElementById("search-icon")
             if (searchMainDiv[0].style.display == "flex"){
                 searchMainDiv[0].style.display = "none"
             } else {
@@ -202,10 +210,10 @@ let listenerLibrary = {
     loginIconClick: function(){
         document.getElementById("login").addEventListener("click", function(){
 
-            let loginMainDiv = document.getElementsByClassName("login")
-            let loginButton = document.getElementById("login-icon")
-            let loginBox = document.getElementById("login-box")
-            let accountDiv = document.getElementById("logged-in")
+            const loginMainDiv = document.getElementsByClassName("login")
+            const loginButton = document.getElementById("login-icon")
+            const loginBox = document.getElementById("login-box")
+            const accountDiv = document.getElementById("logged-in")
             if (document.getElementById("master").innerText === ""){
                 loginButton.style.display = "none"
                 accountDiv.style.display = "none"
@@ -224,8 +232,8 @@ let listenerLibrary = {
     //x button for search
     xButtonOnSearch: function(){
         document.getElementById("x-button").addEventListener("click", function(){
-            let searchMainDiv = document.getElementsByClassName("search")
-            let searchButton = document.getElementById("search-icon")
+            const searchMainDiv = document.getElementsByClassName("search")
+            const searchButton = document.getElementById("search-icon")
             searchMainDiv[0].style.display = "none"
             searchButton.style.display = "flex"
     
@@ -235,8 +243,8 @@ let listenerLibrary = {
     //x button for accounts information
     xButtonOnAccounts: function(){
         document.getElementById("x-button-account").addEventListener("click", function(){
-            let loginMainDiv = document.getElementsByClassName("login")
-            let loginButton = document.getElementById("login-icon")
+            const loginMainDiv = document.getElementsByClassName("login")
+            const loginButton = document.getElementById("login-icon")
             loginMainDiv[0].style.display = "none"
             loginButton.style.display = "flex"
         })
@@ -245,9 +253,9 @@ let listenerLibrary = {
     //goes to create account when clicked
     createAnAccountTransition: function(){
         document.getElementById("create-account-click").addEventListener("click", function(){
-            let createAccountDiv = document.getElementById("create-account-options")
-            let ogDiv = document.getElementById("create-account-selection")
-            let ogDiv2 = document.getElementById("login-selection")
+            const createAccountDiv = document.getElementById("create-account-options")
+            const ogDiv = document.getElementById("create-account-selection")
+            const ogDiv2 = document.getElementById("login-selection")
             ogDiv.style.display = "none"
             ogDiv2.style.display = "none"
             createAccountDiv.style.display = "flex"
@@ -257,9 +265,9 @@ let listenerLibrary = {
     //goes to sign in when clicked
     loginTransition: function(){
         document.getElementById("login-click").addEventListener("click", function(){
-            let loginDiv = document.getElementById("login-options")
-            let ogDiv = document.getElementById("create-account-selection")
-            let ogDiv2 = document.getElementById("login-selection")
+            const loginDiv = document.getElementById("login-options")
+            const ogDiv = document.getElementById("create-account-selection")
+            const ogDiv2 = document.getElementById("login-selection")
             ogDiv.style.display = "none"
             ogDiv2.style.display = "none"
             loginDiv.style.display = "flex"
@@ -269,9 +277,9 @@ let listenerLibrary = {
     //back button functionality for create an account
     createAccountBackButton: function(){
         document.getElementById("account-back-button").addEventListener("click", function(){
-            let createAccountDiv = document.getElementById("create-account-options")
-            let ogDiv = document.getElementById("create-account-selection")
-            let ogDiv2 = document.getElementById("login-selection")
+            const createAccountDiv = document.getElementById("create-account-options")
+            const ogDiv = document.getElementById("create-account-selection")
+            const ogDiv2 = document.getElementById("login-selection")
             createAccountDiv.style.display = "none"
             ogDiv.style.display = "flex"
             ogDiv2.style.display = "flex"
@@ -281,9 +289,9 @@ let listenerLibrary = {
     //back button functionality for log in
     loginBackButton: function(){
         document.getElementById("login-back-button").addEventListener("click", function(){
-            let loginDiv = document.getElementById("login-options")
-            let ogDiv = document.getElementById("create-account-selection")
-            let ogDiv2 = document.getElementById("login-selection")
+            const loginDiv = document.getElementById("login-options")
+            const ogDiv = document.getElementById("create-account-selection")
+            const ogDiv2 = document.getElementById("login-selection")
             loginDiv.style.display = "none"
             ogDiv.style.display = "flex"
             ogDiv2.style.display = "flex"
@@ -294,8 +302,8 @@ let listenerLibrary = {
     //sends account creation POST to API and returns dynamic library message based on returned JSON
     createAccount: function(){
         document.getElementById("create").addEventListener("click", function(){
-            let username = document.getElementById("create-username-input").value
-            let password = document.getElementById("create-password-input").value
+            const username = document.getElementById("create-username-input").value
+            const password = document.getElementById("create-password-input").value
 
             let configurationObject = {
                 method: "POST",
@@ -339,8 +347,8 @@ let listenerLibrary = {
     loginAccount: function(){
         document.getElementById("enter").addEventListener("click", function(){
             console.log("click")
-            let username = document.getElementById("login-username-input").value
-            let password = document.getElementById("login-password-input").value
+            const username = document.getElementById("login-username-input").value
+            const password = document.getElementById("login-password-input").value
 
             let configurationObject = {
                 method: "POST",
@@ -387,7 +395,7 @@ let listenerLibrary = {
         document.getElementById("logout").addEventListener("click", function(){
             document.getElementById("master").innerText = ""
             dynamicLibrary.clearSearch()
-            let inputs = document.getElementsByTagName("input")
+            const inputs = document.getElementsByTagName("input")
             Array.from(inputs).forEach(function(element){
                 element.value = ""
             })
