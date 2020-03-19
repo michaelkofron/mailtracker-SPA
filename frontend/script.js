@@ -9,14 +9,35 @@ function addGoogleMap() {
     script.src = `http://maps.googleapis.com/maps/api/js?key=${MAPKEY}&callback=initMap`
 }
 
-function initMap() {
-    // The location of Uluru
-    var uluru = {lat: -25.344, lng: 131.036};
-    // The map, centered at Uluru
-    var map = new google.maps.Map(
-        document.getElementById("map"), {zoom: 4, center: uluru});
+function initMap(centerCoord = {lat: 39.82, lng: -98}) {
+
+    // Map centers at centerCoord input, if none, defaults to USA
+    let map = new google.maps.Map(
+        document.getElementById("map"), {zoom: 4, center: centerCoord, mapTypeId: google.maps.MapTypeId.ROADMAP});
     // The marker, positioned at Uluru
-    var marker = new google.maps.Marker({position: uluru, map: map});
+    let marker = new google.maps.Marker({position: centerCoord, map: map});
+
+    let dragMarker = new google.maps.Marker({
+        position: {lat: 38, lng: -97},
+        map: map,
+        draggable: true,
+        icon: {                             
+            url: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png"                          
+        },
+        title:"Drag me home!"
+    })
+
+    let popupContent = "<h1>hello</h1>"
+
+    let infoWindow = new google.maps.InfoWindow({content: popupContent})
+
+    infoWindow.open(map, dragMarker)
+
+    google.maps.event.addListener(dragMarker, 'click', function() {
+        infoWindow.open(map, dragMarker)       
+    });
+
+
 }
 
 
@@ -429,6 +450,7 @@ document.addEventListener("DOMContentLoaded", (events) => {
     console.log(Object.keys(listenerLibrary))
 
     addGoogleMap()
+
     dynamicLibrary.showSearchOnLoad()
 
     listenerLibrary.addTrackingNumber()
