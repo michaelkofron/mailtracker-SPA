@@ -22,7 +22,7 @@ function initMap(centerCoord = {lat: 39.82, lng: -98}) {
         map: map,
         draggable: true,
         icon: {                             
-            url: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png"                          
+            url: "https://i.imgur.com/sUr046W.png"                          
         },
         title:"Drag me home!"
     })
@@ -36,6 +36,13 @@ function initMap(centerCoord = {lat: 39.82, lng: -98}) {
     google.maps.event.addListener(dragMarker, 'click', function() {
         infoWindow.open(map, dragMarker)       
     });
+
+    
+
+    
+
+
+
 
 
 }
@@ -52,7 +59,7 @@ let dynamicLibrary = {
         numberDiv.setAttribute("class", "tracking-number")
         const carrier = document.createElement('div')
         carrier.setAttribute("class", "carrier")
-        carrier.innerHTML = "<img class='carrier-pic' src='carrier-image.jpg'>"
+        carrier.innerHTML = "<img class='carrier-pic' src='trash.png'>"
         const number = document.createElement('div')
         number.setAttribute("class", "number")
         const numberContainer = document.createElement('div')
