@@ -12,8 +12,9 @@ let googleMapsLibrary = {
         script.src = `http://maps.googleapis.com/maps/api/js?key=${MAPKEY}&callback=initFirstMap`
     },
 
-    initUserMap: (coordArray) => {
-        
+    addMarker: (map) => {
+        let marker = new google.maps.Marker({position: {lat: 40, lng: -95}, map: map})
+
     }
 }
 
@@ -22,6 +23,7 @@ function initFirstMap(centerCoord = {lat: 39.82, lng: -98}) {
     // Map centers at centerCoord input, if none, defaults to USA
     let map = new google.maps.Map(document.getElementById("map"), {zoom: 4, center: centerCoord, mapTypeId: google.maps.MapTypeId.ROADMAP});
     // The marker, positioned at USA
+    window.currentMap = map
     let marker = new google.maps.Marker({position: centerCoord, map: map});
 
     let dragMarker = new google.maps.Marker({
@@ -93,7 +95,7 @@ let dynamicLibrary = {
 
         setTimeout(function(){
             bar.style.display = "none"
-        }, 5000)
+        }, 10000)
     },
 
     //currently clears account divs, doesnt do anything else (used after successful login)
@@ -162,7 +164,7 @@ let listenerLibrary = {
 
     addTrackingNumber: ()=>{
         document.getElementById("search-submit-icon").addEventListener("click", function(){
-            const searchValue = document.getElementById("search-input").value
+            let searchValue = document.getElementById("search-input").value
             const userName = document.getElementById("master").innerText
 
             const trackingAmount = document.getElementsByClassName("number-container").length
@@ -178,27 +180,33 @@ let listenerLibrary = {
                     username: `${userName}`
                 })
             }
+            if (searchValue !== ""){
+                dynamicLibrary.messageBar("Loading...", "blue")
+                fetch("http://localhost:3000/submitnumber", configurationObject)
+                .then(function(response){
+                    return response.json()
+                })
+                .then(function(object){
+                    console.log(object)
+                    if (object["status"]){
+                        dynamicLibrary.messageBar("You must be logged in", "red")  
+                    } else if (object["number"]["user_id"] == null){
+                        dynamicLibrary.messageBar("You must be logged in", "red")
+                    } else if (object["number"]["id"] == null){
+                        dynamicLibrary.messageBar(object["errors"]["number"][0], "red")
+                    } else if (object["number_limit"]){
+                        dynamicLibrary.messageBar(object["number_limit"])
+                    } else {
+                        document.getElementById("search-input").value = ""
+                        dynamicLibrary.messageBar("Success!", "blue")
+                        googleMapsLibrary.addMarker(window.currentMap) // false marker right now
+                        dynamicLibrary.addToSearch(object["number"]["number"])
+                    }
 
-            fetch("http://localhost:3000/submitnumber", configurationObject)
-            .then(function(response){
-                return response.json()
-            })
-            .then(function(object){
-                console.log(object)
-
-                if (object["number"]["user_id"] == null){
-                    dynamicLibrary.messageBar("You must be logged in", "red")
-                } else if (object["number"]["id"] == null){
-                    dynamicLibrary.messageBar(object["errors"]["number"][0], "red")
-                } else {
-                    dynamicLibrary.addToSearch(object["number"]["number"])
-                }
-
-            })
-            .catch(function(error){
-                console.log(error)
-                alert('error')
-            })
+                })
+            } else {
+                dynamicLibrary.messageBar("Tracking number can't be blank", "red")
+            }
 
            
 
