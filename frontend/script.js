@@ -4,17 +4,24 @@
     //})    
 //}
 
-function addGoogleMap() {
-    let script = document.getElementById("googlescript")
-    script.src = `http://maps.googleapis.com/maps/api/js?key=${MAPKEY}&callback=initMap`
+let googleMapsLibrary = {
+    
+
+    addGoogleMap: () => {
+        let script = document.getElementById("googlescript")
+        script.src = `http://maps.googleapis.com/maps/api/js?key=${MAPKEY}&callback=initFirstMap`
+    },
+
+    initUserMap: (coordArray) => {
+        
+    }
 }
 
-function initMap(centerCoord = {lat: 39.82, lng: -98}) {
+function initFirstMap(centerCoord = {lat: 39.82, lng: -98}) {
 
     // Map centers at centerCoord input, if none, defaults to USA
-    let map = new google.maps.Map(
-        document.getElementById("map"), {zoom: 4, center: centerCoord, mapTypeId: google.maps.MapTypeId.ROADMAP});
-    // The marker, positioned at Uluru
+    let map = new google.maps.Map(document.getElementById("map"), {zoom: 4, center: centerCoord, mapTypeId: google.maps.MapTypeId.ROADMAP});
+    // The marker, positioned at USA
     let marker = new google.maps.Marker({position: centerCoord, map: map});
 
     let dragMarker = new google.maps.Marker({
@@ -27,7 +34,7 @@ function initMap(centerCoord = {lat: 39.82, lng: -98}) {
         title:"Drag me home!"
     })
 
-    let popupContent = "<h1>hello</h1>"
+    let popupContent = "<p>log in and place me at home!</p>"
 
     let infoWindow = new google.maps.InfoWindow({content: popupContent})
 
@@ -37,15 +44,9 @@ function initMap(centerCoord = {lat: 39.82, lng: -98}) {
         infoWindow.open(map, dragMarker)       
     });
 
-    
-
-    
-
-
-
-
-
 }
+
+
 
 
 
@@ -456,7 +457,7 @@ let listenerLibrary = {
 document.addEventListener("DOMContentLoaded", (events) => {
     console.log(Object.keys(listenerLibrary))
 
-    addGoogleMap()
+    googleMapsLibrary.addGoogleMap()
 
     dynamicLibrary.showSearchOnLoad()
 

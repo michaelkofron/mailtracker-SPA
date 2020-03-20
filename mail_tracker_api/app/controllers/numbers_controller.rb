@@ -13,7 +13,7 @@ class NumbersController < ApplicationController
 
         if user
             new_number = Number.create(number: params[:number], user_id: user.id)
-            object = {number: new_number, errors: new_number.errors}
+            object = {number: new_number, errors: new_number.errors, allNumbers: user.numbers}
             render json: object
         else
             new_number = Number.create(number: params[:number])
