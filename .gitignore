@@ -1,3 +1,5 @@
 .env
 
 frontend/key.js
+
+mail_tracker_api/app/models/key.rb

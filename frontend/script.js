@@ -15,7 +15,7 @@ let googleMapsLibrary = {
     },
 
     addMarker: (coords, info, number) => {
-        let marker = new google.maps.Marker({position: coords, map: window.currentMap})
+        let marker = new google.maps.Marker({position: coords, map: window.currentMap, _numberValue: number})
 
         let marker_info = `<p id="marker-number">Tracking code: ${number}</p><p id="marker-location">${info["location"]}</p><p id="marker-details">${info["details"]}</p><p id="marker-date">${info["timestamp"].slice(0,10)}</p>`
 
@@ -232,29 +232,9 @@ let listenerLibrary = {
         div.addEventListener("click", function(){
             const number = div.parentElement.children[1].innerText
             const userName = document.getElementById("master").innerText
-            let allTrash = document.getElementsByClassName("carrier")
-            let existingTrashArray = []
-            let allNumbers = document.getElementsByClassName("tracking-number")
-            let existingNumberArray = []
-
-            for (i=0; i < allTrash.length; i++){
-                if (allTrash[i].style.display == ""){
-                    existingTrashArray.push(allTrash[i])
-                }
-            }
 
             //only pushes trash that dont have display set to "none", so the trash indexes correspond to
             //marker indexes
-
-            for (i=0; i < allNumbers.length; i++){
-                if (allNumbers[i].style.display == ""){
-                    existingNumberArray.push(allNumbers[i])
-                }
-            }
-
-            //only pushes numbers that haven't been delete (their display set to none)
-            //this way we can correspond them to the markers on the map
-
 
             let configurationObject = {
                 method: "POST",
@@ -273,14 +253,11 @@ let listenerLibrary = {
                     return response.json()
                 })
                 .then(function(object){
-                    
-                    console.log(allTrash)
-                    markers[existingTrashArray.indexOf(div)].setMap(null)
-                    markers.slice(existingTrashArray.indexOf(div), 1)
+                    document.getElementById("search-input").value = ""
+                    let marker = markers.filter(element => element._numberValue == number)
+                    marker[marker.length-1].setMap(null)
                     div.style.display = "none"
                     div.parentElement.style.display = "none"
-                    console.log(existingTrashArray)
-                    console.log(markers)
                 })
                 .catch(function(error){
                     console.log(error)
