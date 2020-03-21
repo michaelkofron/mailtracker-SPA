@@ -39,7 +39,13 @@ class NumbersController < ApplicationController
     def load
         user = User.find_by(username: params[:username])
 
-        render json: user.numbers
+        object = []
+
+        user.numbers.each do |x|
+            object << {id: x.id, number: x.number, user_id: x.user_id, info: x.last, coordinates: x.coordinates}
+        end
+        render json: object
+        #render json: user.numbers
 
     end
 

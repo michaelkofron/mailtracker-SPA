@@ -11,7 +11,7 @@ let googleMapsLibrary = {
     addMarker: (coords, info, number) => {
         let marker = new google.maps.Marker({position: coords, map: window.currentMap, _numberValue: number})
 
-        let marker_info = `<p id="marker-number">Tracking code: ${number}</p><p id="marker-location">${info["location"]}</p><p id="marker-details">${info["details"]}</p><p id="marker-date">${info["timestamp"].slice(0,10)}</p>`
+        let marker_info = `<p>Tracking code: ${number}</p><p>${info["location"]}</p><p>${info["details"]}</p><p>${info["timestamp"].slice(0,10)}</p>`
 
         let popup = new google.maps.InfoWindow({content: marker_info})
 
@@ -134,6 +134,7 @@ let dynamicLibrary = {
 let listenerLibrary = {
 
     showTrackingNumbersOnEntry: (userName)=>{
+        dynamicLibrary.messageBar("Loading your numbers...", "blue")
 
         let configurationObject = {
             method: "POST",
@@ -152,15 +153,20 @@ let listenerLibrary = {
             })
             .then(function(object){
                 console.log(object)
-
+                dynamicLibrary.messageBar("Success!", "blue")
                 for (i = 0; i < object.length; i++){
                     dynamicLibrary.addToSearch(object[i].number)
+                    googleMapsLibrary.addMarker(object[i].coordinates.current_coords, object[i].info, object[i].number)
                 }
             })
             .catch(function(error){
                 console.log(error)
                 alert("error")
             })
+    },
+
+    clickTrackingNumber: ()=>{
+        document.getElementById("")
     },
 
 
