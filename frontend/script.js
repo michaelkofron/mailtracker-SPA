@@ -11,7 +11,7 @@ let googleMapsLibrary = {
     addMarker: (coords, info, number) => {
         let marker = new google.maps.Marker({position: coords, map: window.currentMap, _numberValue: number})
 
-        let marker_info = `<p>Tracking code: ${number}</p><p>${info["location"]}</p><p>${info["details"]}</p><p>${info["timestamp"].slice(0,10)}</p>`
+        let marker_info = `<input type="text" placeholder="tag, item name, extra information..."><input id="marker-submit" type="submit"><p>Tracking code: ${number}</p><p>${info["location"]}</p><p>${info["details"]}</p><p>${info["timestamp"].slice(0,10)}</p>`
 
         let popup = new google.maps.InfoWindow({content: marker_info})
 
