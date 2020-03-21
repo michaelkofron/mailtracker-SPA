@@ -4,6 +4,8 @@
     //})    
 //}
 
+let markers = []
+
 let googleMapsLibrary = {
     
 
@@ -12,9 +14,20 @@ let googleMapsLibrary = {
         script.src = `http://maps.googleapis.com/maps/api/js?key=${MAPKEY}&callback=initFirstMap`
     },
 
-    addMarker: (map) => {
-        let marker = new google.maps.Marker({position: {lat: 40, lng: -95}, map: map})
+    addMarker: (coords, info, number) => {
+        let marker = new google.maps.Marker({position: coords, map: window.currentMap})
 
+        let marker_info = `<p id="marker-number">Tracking code: ${number}</p><p id="marker-location">${info["location"]}</p><p id="marker-details">${info["details"]}</p><p id="marker-date">${info["timestamp"].slice(0,10)}</p>`
+
+        let popup = new google.maps.InfoWindow({content: marker_info})
+
+        popup.open(window.currentMap, marker)
+
+        google.maps.event.addListener(marker, 'click', function() {
+            popup.open(window.currentMap, marker)       
+        });
+
+        markers.push(marker)
     }
 }
 
@@ -22,9 +35,7 @@ function initFirstMap(centerCoord = {lat: 39.82, lng: -98}) {
 
     // Map centers at centerCoord input, if none, defaults to USA
     let map = new google.maps.Map(document.getElementById("map"), {zoom: 4, center: centerCoord, mapTypeId: google.maps.MapTypeId.ROADMAP});
-    // The marker, positioned at USA
     window.currentMap = map
-    let marker = new google.maps.Marker({position: centerCoord, map: map});
 
     let dragMarker = new google.maps.Marker({
         position: {lat: 38, lng: -97},
@@ -36,7 +47,9 @@ function initFirstMap(centerCoord = {lat: 39.82, lng: -98}) {
         title:"Drag me home!"
     })
 
-    let popupContent = "<p>log in and place me at home!</p>"
+    window.userDragMarker = dragMarker
+
+    let popupContent = "<p>drag me home!</p>"
 
     let infoWindow = new google.maps.InfoWindow({content: popupContent})
 
@@ -164,7 +177,7 @@ let listenerLibrary = {
 
     addTrackingNumber: ()=>{
         document.getElementById("search-submit-icon").addEventListener("click", function(){
-            let searchValue = document.getElementById("search-input").value
+            let searchValue = document.getElementById("search-input").value.replace(/\s/g, "")
             const userName = document.getElementById("master").innerText
 
             const trackingAmount = document.getElementsByClassName("number-container").length
@@ -199,7 +212,7 @@ let listenerLibrary = {
                     } else {
                         document.getElementById("search-input").value = ""
                         dynamicLibrary.messageBar("Success!", "blue")
-                        googleMapsLibrary.addMarker(window.currentMap) // false marker right now
+                        googleMapsLibrary.addMarker(object["coordinates"]["current_coords"], object["info"], object["number"]["number"]) // false marker right now
                         dynamicLibrary.addToSearch(object["number"]["number"])
                     }
 
@@ -219,6 +232,29 @@ let listenerLibrary = {
         div.addEventListener("click", function(){
             const number = div.parentElement.children[1].innerText
             const userName = document.getElementById("master").innerText
+            let allTrash = document.getElementsByClassName("carrier")
+            let existingTrashArray = []
+            let allNumbers = document.getElementsByClassName("tracking-number")
+            let existingNumberArray = []
+
+            for (i=0; i < allTrash.length; i++){
+                if (allTrash[i].style.display == ""){
+                    existingTrashArray.push(allTrash[i])
+                }
+            }
+
+            //only pushes trash that dont have display set to "none", so the trash indexes correspond to
+            //marker indexes
+
+            for (i=0; i < allNumbers.length; i++){
+                if (allNumbers[i].style.display == ""){
+                    existingNumberArray.push(allNumbers[i])
+                }
+            }
+
+            //only pushes numbers that haven't been delete (their display set to none)
+            //this way we can correspond them to the markers on the map
+
 
             let configurationObject = {
                 method: "POST",
@@ -237,7 +273,14 @@ let listenerLibrary = {
                     return response.json()
                 })
                 .then(function(object){
+                    
+                    console.log(allTrash)
+                    markers[existingTrashArray.indexOf(div)].setMap(null)
+                    markers.slice(existingTrashArray.indexOf(div), 1)
+                    div.style.display = "none"
                     div.parentElement.style.display = "none"
+                    console.log(existingTrashArray)
+                    console.log(markers)
                 })
                 .catch(function(error){
                     console.log(error)

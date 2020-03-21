@@ -11,6 +11,11 @@ class Number < ApplicationRecord
         package = Tracker.new(self.number)
         package.last_location
     end
+
+    def coordinates
+        package = Tracker.new(self.number)
+        package.coordinates
+    end
     #last known location of package in JSON
 
 end

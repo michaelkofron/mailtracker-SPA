@@ -16,7 +16,7 @@ class NumbersController < ApplicationController
             if user
                 new_number = Number.new(number: params[:number], user_id: user.id)
                 if new_number.valid?
-                    object = {number: new_number, errors: new_number.errors, allNumbers: user.numbers, info: new_number.last}
+                    object = {number: new_number, errors: new_number.errors, allNumbers: user.numbers, info: new_number.last, coordinates: new_number.coordinates}
                     new_number.save
                 else
                     object = {number: new_number, errors: new_number.errors, allNumbers: user.numbers}
