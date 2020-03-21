@@ -1,9 +1,3 @@
-//function getAndPushKey(){
-    //fetch('http://localhost:3000/link').then(response => response.text()).then(text => {
-    //    document.body.innerHTML = `${text}`
-    //})    
-//}
-
 let markers = []
 
 let googleMapsLibrary = {
@@ -58,12 +52,7 @@ function initFirstMap(centerCoord = {lat: 39.82, lng: -98}) {
     google.maps.event.addListener(dragMarker, 'click', function() {
         infoWindow.open(map, dragMarker)       
     });
-
 }
-
-
-
-
 
 let dynamicLibrary = {
 
@@ -75,7 +64,7 @@ let dynamicLibrary = {
         numberDiv.setAttribute("class", "tracking-number")
         const carrier = document.createElement('div')
         carrier.setAttribute("class", "carrier")
-        carrier.innerHTML = "<img class='carrier-pic' src='trash.png'>"
+        carrier.innerHTML = "<img class='carrier-pic' src='/icons/trash.png'>"
         const number = document.createElement('div')
         number.setAttribute("class", "number")
         const numberContainer = document.createElement('div')
