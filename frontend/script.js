@@ -62,6 +62,17 @@ let googleMapsLibrary = {
         for(i=0; i < markers.length; i++){
             markers[i].setMap(null)
         }
+    },
+
+    homeMarkerTitleChanges: (username) => {
+        let markerTitle = document.getElementById("home").innerText
+
+        markerTitle = `Welcome back ${username}`
+
+        setTimeout(function(){
+            markerTitle = "put me somewhere new, or keep me here!"
+        }, 2000)
+
     }
 
     //then all i have to do on login is set position .setPosition(mylatlang)
@@ -85,7 +96,7 @@ function initFirstMap(centerCoord = {lat: 39.82, lng: -98}) {
 
     window.userDragMarker = dragMarker
 
-    let popupContent = "<p>drag me home!</p>"
+    let popupContent = "<p id='home'>Hello!</p>"
 
     let infoWindow = new google.maps.InfoWindow({content: popupContent})
 
@@ -475,9 +486,13 @@ let listenerLibrary = {
                         let longitude = parseFloat(object["user"]["home_marker_lng"])
                         dynamicLibrary.messageBar(`Welcome, ${object["user"]["username"]}!`, "blue")
                         window.userDragMarker.setPosition({lat: latitude, lng: longitude})
+                        document.getElementById('home').innerText = `Welcome back ${username}!`
                         dynamicLibrary.hideOnLogin()
                         listenerLibrary.showTrackingNumbersOnEntry(object["user"]["username"]) //find this users numbers
                         document.getElementById("master").innerText = object["user"]["username"] //store current username
+                        setTimeout(function(){
+                            document.getElementById('home').innerText = "put me somewhere new, or keep me here!"
+                        }, 6500)
 
                     } else {
                         if (object["errors"]){
