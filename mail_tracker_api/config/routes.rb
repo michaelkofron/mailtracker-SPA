@@ -6,6 +6,8 @@ Rails.application.routes.draw do
   post "/signup", to: "users#create", as: :users #signup
   post "/login", to: "users#login" #logs in
 
+  post "/savemarker", to: "users#marker" #user saves their marker position on log out
+
   post "/submitnumber", to: "numbers#create" #submits a number
   post "/loadnumbers", to: "numbers#load" #post request on sign in, returns all of a user's numbers
   post "/deletenumber", to: "numbers#delete" #post request when delete button is clicked

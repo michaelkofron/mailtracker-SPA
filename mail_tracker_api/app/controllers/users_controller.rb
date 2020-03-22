@@ -35,4 +35,13 @@ class UsersController < ApplicationController
 
         #render json: Object
     end
+
+    def marker
+        user_account = User.find_by(username: params[:username])
+
+        user_account.update_attribute(:home_marker_lat, params[:lat])
+        user_account.update_attribute(:home_marker_lng, params[:lng])
+
+        render json: user_account
+    end
 end

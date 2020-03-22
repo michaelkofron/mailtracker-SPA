@@ -20,6 +20,8 @@ ActiveRecord::Schema.define(version: 2020_03_14_231739) do
   create_table "users", force: :cascade do |t|
     t.string "username"
     t.string "password_digest"
+    t.string "home_marker_lat"
+    t.string "home_marker_lng"
   end
 
 end

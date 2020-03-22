@@ -11,7 +11,7 @@ let googleMapsLibrary = {
     addMarker: (coords, info, number) => {
         let marker = new google.maps.Marker({position: coords, map: window.currentMap, _numberValue: number})
 
-        let marker_info = `<input type="text" placeholder="tag, item name, extra information..."><input id="marker-submit" type="submit"><p>Tracking code: ${number}</p><p>${info["location"]}</p><p>${info["details"]}</p><p>${info["timestamp"].slice(0,10)}</p>`
+        let marker_info = `<p id="marker-number">Tracking code: ${number}</p><p>${info["location"]}</p><p>${info["details"]}</p><p>${info["timestamp"].slice(0,10)}</p>`
 
         let popup = new google.maps.InfoWindow({content: marker_info})
 
@@ -22,7 +22,49 @@ let googleMapsLibrary = {
         });
 
         markers.push(marker)
+    },
+
+    homeMarkerSaveOnExit: () => {
+        const userName = document.getElementById("master").innerText
+        const marker = window.userDragMarker
+        const latitude = marker.getPosition().lat()
+        const longitude = marker.getPosition().lng()
+
+        let configurationObject = {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "Accept": "application/json"
+            },
+            body: JSON.stringify({
+                username: `${userName}`,
+                lat: latitude,
+                lng: longitude
+            })
+        }
+
+        fetch("http://localhost:3000/savemarker", configurationObject)
+            .then(function(response){
+                return response.json()
+            })
+            .then(function(object){
+                console.log(object)
+            })
+            .catch(function(error){
+                console.log(error)
+                alert("error")
+            })
+
+
+    },
+
+    clearMarkers: () => {
+        for(i=0; i < markers.length; i++){
+            markers[i].setMap(null)
+        }
     }
+
+    //then all i have to do on login is set position .setPosition(mylatlang)
 }
 
 function initFirstMap(centerCoord = {lat: 39.82, lng: -98}) {
@@ -165,17 +207,12 @@ let listenerLibrary = {
             })
     },
 
-    clickTrackingNumber: ()=>{
-        document.getElementById("")
-    },
-
-
     addTrackingNumber: ()=>{
         document.getElementById("search-submit-icon").addEventListener("click", function(){
             let searchValue = document.getElementById("search-input").value.replace(/\s/g, "")
             const userName = document.getElementById("master").innerText
 
-            const trackingAmount = document.getElementsByClassName("number-container").length
+            //const trackingAmount = document.getElementsByClassName("number-container").length
 
             let configurationObject = {
                 method: "POST",
@@ -215,11 +252,6 @@ let listenerLibrary = {
             } else {
                 dynamicLibrary.messageBar("Tracking number can't be blank", "red")
             }
-
-           
-
-            
-
         })
     },
 
@@ -227,9 +259,6 @@ let listenerLibrary = {
         div.addEventListener("click", function(){
             const number = div.parentElement.children[1].innerText
             const userName = document.getElementById("master").innerText
-
-            //only pushes trash that dont have display set to "none", so the trash indexes correspond to
-            //marker indexes
 
             let configurationObject = {
                 method: "POST",
@@ -442,10 +471,14 @@ let listenerLibrary = {
                     console.log(object)
                     dynamicLibrary.clearSearch()
                     if (object["user"]["id"] !== null){
+                        let latitude = parseFloat(object["user"]["home_marker_lat"])
+                        let longitude = parseFloat(object["user"]["home_marker_lng"])
                         dynamicLibrary.messageBar(`Welcome, ${object["user"]["username"]}!`, "blue")
+                        window.userDragMarker.setPosition({lat: latitude, lng: longitude})
                         dynamicLibrary.hideOnLogin()
                         listenerLibrary.showTrackingNumbersOnEntry(object["user"]["username"]) //find this users numbers
                         document.getElementById("master").innerText = object["user"]["username"] //store current username
+
                     } else {
                         if (object["errors"]){
                             dynamicLibrary.messageBar(`${object["errors"]}`, "red")
@@ -465,6 +498,8 @@ let listenerLibrary = {
 
     logOut: ()=>{
         document.getElementById("logout").addEventListener("click", function(){
+            googleMapsLibrary.homeMarkerSaveOnExit()
+            googleMapsLibrary.clearMarkers()
             document.getElementById("master").innerText = ""
             dynamicLibrary.clearSearch()
             const inputs = document.getElementsByTagName("input")
