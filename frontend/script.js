@@ -1,5 +1,7 @@
 let markers = []
 
+//stores all of the sessions markers, global object meant to keep track, used for deleting
+
 let googleMapsLibrary = {
     
 
@@ -8,11 +10,12 @@ let googleMapsLibrary = {
         script.src = `http://maps.googleapis.com/maps/api/js?key=${MAPKEY}&callback=initFirstMap`
     },
 
+    //sets google maps API 
+
     addMarker: (coords, info, number) => {
         let marker = new google.maps.Marker({position: coords, map: window.currentMap, _numberValue: number})
-
+        //make the tracking number for the marker its main identifier for delition
         let marker_info = `<p id="marker-number">Tracking code: ${number}</p><p>${info["location"]}</p><p>${info["details"]}</p><p>${info["timestamp"].slice(0,10)}</p>`
-
         let popup = new google.maps.InfoWindow({content: marker_info})
 
         popup.open(window.currentMap, marker)
@@ -55,8 +58,9 @@ let googleMapsLibrary = {
                 alert("error")
             })
 
-
     },
+
+    //.setPosition(mylatlang) on login
 
     clearMarkers: () => {
         for(i=0; i < markers.length; i++){
@@ -67,15 +71,16 @@ let googleMapsLibrary = {
     homeMarkerTitleChanges: (username) => {
         let markerTitle = document.getElementById("home").innerText
 
-        markerTitle = `Welcome back ${username}`
+        if (markerTitle != null){
+            markerTitle = `Welcome back ${username}`
 
-        setTimeout(function(){
-            markerTitle = "put me somewhere new, or keep me here!"
-        }, 2000)
+            setTimeout(function(){
+                markerTitle = "put me somewhere new, or keep me here!"
+            }, 2000)
+
+        }
 
     }
-
-    //then all i have to do on login is set position .setPosition(mylatlang)
 }
 
 function initFirstMap(centerCoord = {lat: 39.82, lng: -98}) {
@@ -131,7 +136,7 @@ let dynamicLibrary = {
         listenerLibrary.deleteTrackingNumber(carrier)
     },
 
-    //changes color bar for an error, displays error, else displays a good message in blue
+    //red for error, blue for good news, displays a message
 
     messageBar: (message, color)=>{
         const bar = document.getElementById("top-head")
@@ -153,7 +158,7 @@ let dynamicLibrary = {
         }, 10000)
     },
 
-    //currently clears account divs, doesnt do anything else (used after successful login)
+    //clears account divs for replacement by "logout" div
     hideOnLogin: ()=>{
 
         const loginMainDiv = document.getElementsByClassName("login")
@@ -164,8 +169,6 @@ let dynamicLibrary = {
         loginBox.style.display = "none"
         accountDiv.style.display = "flex"
         loginButton.style.display = "flex"
-        // add function that when a user is logged in, clears the user button and shows log out only
-        //what is written right now is temporary
     },
 
     //displays search bar on load, can still be exited
@@ -222,8 +225,6 @@ let listenerLibrary = {
         document.getElementById("search-submit-icon").addEventListener("click", function(){
             let searchValue = document.getElementById("search-input").value.replace(/\s/g, "")
             const userName = document.getElementById("master").innerText
-
-            //const trackingAmount = document.getElementsByClassName("number-container").length
 
             let configurationObject = {
                 method: "POST",
@@ -486,7 +487,9 @@ let listenerLibrary = {
                         let longitude = parseFloat(object["user"]["home_marker_lng"])
                         dynamicLibrary.messageBar(`Welcome, ${object["user"]["username"]}!`, "blue")
                         window.userDragMarker.setPosition({lat: latitude, lng: longitude})
-                        document.getElementById('home').innerText = `Welcome back ${username}!`
+                        if (document.getElementById('home') !== null){
+                            document.getElementById('home').innerText = `Welcome back ${username}!`
+                        }
                         dynamicLibrary.hideOnLogin()
                         listenerLibrary.showTrackingNumbersOnEntry(object["user"]["username"]) //find this users numbers
                         document.getElementById("master").innerText = object["user"]["username"] //store current username
@@ -528,7 +531,6 @@ let listenerLibrary = {
 }
 
 document.addEventListener("DOMContentLoaded", (events) => {
-    console.log(Object.keys(listenerLibrary))
 
     googleMapsLibrary.addGoogleMap()
 

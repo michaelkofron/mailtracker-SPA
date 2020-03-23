@@ -28,3 +28,5 @@
 .env
 
 /models/key.rb
+
+.DS_Store
