@@ -27,6 +27,4 @@
 /config/master.key
 .env
 
-/models/key.rb
-
 .DS_Store
