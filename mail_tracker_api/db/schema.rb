@@ -25,6 +25,7 @@ ActiveRecord::Schema.define(version: 2020_03_14_231739) do
     t.string "password_digest"
     t.string "home_marker_lat"
     t.string "home_marker_lng"
+    t.string "session_key"
   end
 
 end

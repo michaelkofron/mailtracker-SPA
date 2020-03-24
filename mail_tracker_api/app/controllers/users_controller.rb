@@ -12,6 +12,8 @@ class UsersController < ApplicationController
 
         user_account = User.create(username: params[:username], password: params[:password])
 
+        user_account.update_attribute(:session_key, params[:sessionkey])
+
         object = {user: user_account, errors: user_account.errors}
 
         render json: object
@@ -22,6 +24,7 @@ class UsersController < ApplicationController
         user_account = User.find_by(username: params[:username])
 
         if user_account && user_account.authenticate(params[:password])
+            user_account.update_attribute(:session_key, params[:sessionkey])
             render json: {user: user_account}
         else
             if user_account == nil
@@ -39,9 +42,11 @@ class UsersController < ApplicationController
     def marker
         user_account = User.find_by(username: params[:username])
 
-        user_account.update_attribute(:home_marker_lat, params[:lat])
-        user_account.update_attribute(:home_marker_lng, params[:lng])
+        if user_account.session_key == params[:sessionkey]
 
-        render json: user_account
+            user_account.update_attribute(:home_marker_lat, params[:lat])
+            user_account.update_attribute(:home_marker_lng, params[:lng])
+            render json: user_account
+        end
     end
 end

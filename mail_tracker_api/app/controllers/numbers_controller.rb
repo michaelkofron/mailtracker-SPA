@@ -9,7 +9,7 @@ class NumbersController < ApplicationController
 
     def create
 
-        user = User.find_by(username: params[:username])
+        user = User.find_by(session_key: params[:sessionkey])
 
         if user.numbers.length <= 10
 

@@ -27,8 +27,9 @@ let googleMapsLibrary = {
         markers.push(marker)
     },
 
-    homeMarkerSaveOnExit: () => {
+    homeMarkerSaveOnEntry: () => {
         const userName = document.getElementById("master").innerText
+        const sessionKey = document.getElementById("session-key").innerText
         const marker = window.userDragMarker
         const latitude = marker.getPosition().lat()
         const longitude = marker.getPosition().lng()
@@ -41,6 +42,7 @@ let googleMapsLibrary = {
             },
             body: JSON.stringify({
                 username: `${userName}`,
+                sessionkey: `${sessionKey}`,
                 lat: latitude,
                 lng: longitude
             })
@@ -51,13 +53,52 @@ let googleMapsLibrary = {
                 return response.json()
             })
             .then(function(object){
-                console.log(object)
+                
             })
             .catch(function(error){
-                console.log(error)
-                alert("error")
+                
+                dynamicLibrary.messageBar("Unknown error", "red")
             })
 
+    },
+
+    markerDragEnd: () => {
+        google.maps.event.addListener(window.userDragMarker, "dragend", function(){
+            const userName = document.getElementById("master").innerText
+            const sessionKey = document.getElementById("session-key").innerText
+
+            if (userName){
+                const marker = window.userDragMarker
+                const latitude = marker.getPosition().lat()
+                const longitude = marker.getPosition().lng()
+
+                let configurationObject = {
+                    method: "POST",
+                    headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                    },
+                    body: JSON.stringify({
+                        username: `${userName}`,
+                        sessionkey: `${sessionKey}`,
+                        lat: latitude,
+                        lng: longitude
+                    })
+                }
+
+                fetch("http://localhost:3000/savemarker", configurationObject)
+                    .then(function(response){
+                        return response.json()
+                    })
+                    .then(function(object){
+                        
+                    })
+                    .catch(function(error){
+                        dynamicLibrary.messageBar("Unknown error", "red")
+                    })
+
+            }//
+        })
     },
 
     //.setPosition(mylatlang) on login
@@ -110,6 +151,8 @@ function initFirstMap(centerCoord = {lat: 39.82, lng: -98}) {
     google.maps.event.addListener(dragMarker, 'click', function() {
         infoWindow.open(map, dragMarker)       
     });
+
+    googleMapsLibrary.markerDragEnd()
 }
 
 let dynamicLibrary = {
@@ -180,9 +223,15 @@ let dynamicLibrary = {
         searchButton.style.display = "none"
     },
 
-    clearSearch: function(){
+    clearSearch: () => {
         document.getElementById("tracking-numbers-div").innerHTML = ""
         document.getElementById("search-input").value = ""
+    },
+
+    keyPress: (event, item) => {
+        if (event.keyCode == 13){
+            document.getElementById(item).click()
+        }
     }
     
 }
@@ -225,6 +274,7 @@ let listenerLibrary = {
         document.getElementById("search-submit-icon").addEventListener("click", function(){
             let searchValue = document.getElementById("search-input").value.replace(/\s/g, "")
             const userName = document.getElementById("master").innerText
+            const sessionKey = document.getElementById("session-key").innerText
 
             let configurationObject = {
                 method: "POST",
@@ -234,7 +284,8 @@ let listenerLibrary = {
                 },
                 body: JSON.stringify({
                     number: `${searchValue}`,
-                    username: `${userName}`
+                    username: `${userName}`,
+                    sessionkey: `${sessionKey}`
                 })
             }
             if (searchValue !== ""){
@@ -417,6 +468,7 @@ let listenerLibrary = {
         document.getElementById("create").addEventListener("click", function(){
             const username = document.getElementById("create-username-input").value
             const password = document.getElementById("create-password-input").value
+            const sessionKey = document.getElementById("session-key").innerText
 
             let configurationObject = {
                 method: "POST",
@@ -426,7 +478,8 @@ let listenerLibrary = {
                 },
                 body: JSON.stringify({
                     username: `${username}`,
-                    password: `${password}`
+                    password: `${password}`,
+                    sessionkey: `${sessionKey}`
                 })
             }
 
@@ -440,6 +493,7 @@ let listenerLibrary = {
                         dynamicLibrary.messageBar(`Welcome, ${object["user"]["username"]}!`, "blue")
                         dynamicLibrary.hideOnLogin()
                         document.getElementById("master").innerText = object["user"]["username"] //store current username
+                        googleMapsLibrary.homeMarkerSaveOnEntry()
                     } else {
                         if (object["errors"]["password"]){
                             dynamicLibrary.messageBar(`Password ${object["errors"]["password"][0]}`, "red")
@@ -462,6 +516,7 @@ let listenerLibrary = {
             console.log("click")
             const username = document.getElementById("login-username-input").value
             const password = document.getElementById("login-password-input").value
+            const sessionKey = document.getElementById("session-key").innerText
 
             let configurationObject = {
                 method: "POST",
@@ -471,7 +526,8 @@ let listenerLibrary = {
                 },
                 body: JSON.stringify({
                     username: `${username}`,
-                    password: `${password}`
+                    password: `${password}`,
+                    sessionkey: `${sessionKey}`
                 })
             }
 
@@ -491,7 +547,7 @@ let listenerLibrary = {
                             document.getElementById('home').innerText = `Welcome back ${username}!`
                         }
                         dynamicLibrary.hideOnLogin()
-                        listenerLibrary.showTrackingNumbersOnEntry(object["user"]["username"]) //find this users numbers
+                        listenerLibrary.showTrackingNumbersOnEntry(object["user"]["username"])//find this users numbers
                         document.getElementById("master").innerText = object["user"]["username"] //store current username
                         setTimeout(function(){
                             document.getElementById('home').innerText = "put me somewhere new, or keep me here!"
@@ -516,7 +572,7 @@ let listenerLibrary = {
 
     logOut: ()=>{
         document.getElementById("logout").addEventListener("click", function(){
-            googleMapsLibrary.homeMarkerSaveOnExit()
+            //googleMapsLibrary.homeMarkerSaveOnExit()
             googleMapsLibrary.clearMarkers()
             document.getElementById("master").innerText = ""
             dynamicLibrary.clearSearch()
@@ -531,6 +587,9 @@ let listenerLibrary = {
 }
 
 document.addEventListener("DOMContentLoaded", (events) => {
+
+    let sessionKey = Math.random().toString(36).substring(3)
+    document.getElementById('session-key').innerText = sessionKey
 
     googleMapsLibrary.addGoogleMap()
 

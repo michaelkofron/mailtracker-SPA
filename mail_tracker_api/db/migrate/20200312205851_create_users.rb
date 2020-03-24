@@ -5,6 +5,7 @@ class CreateUsers < ActiveRecord::Migration[6.0]
       t.string :password_digest
       t.string :home_marker_lat
       t.string :home_marker_lng
+      t.string :session_key
     end
   end
 end

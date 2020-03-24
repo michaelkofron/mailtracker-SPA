@@ -1,8 +1,8 @@
 <html>
     <head>
+        <script type="text/javascript" src="key.js"></script>
         <script async defer id="googlescript"></script>
         <script type="text/javascript" src="script.js"></script>
-        <script type="text/javascript" src="key.js"></script>
         <link rel="stylesheet" type="text/css" href="style.css">
     </head>
     <body>
@@ -14,7 +14,7 @@
                         <img id="x-button" src="/icons/x-button.png">
                     </div>
                     <div id="lookup">
-                        <input id="search-input" type="text" placeholder="tracking number #">
+                        <input id="search-input" type="text" placeholder="tracking number #" onkeypress="return dynamicLibrary.keyPress(event, 'search-submit-icon')">
                     </div>
                     <div id="search-submit">
                         <img id="search-submit-icon" src="/icons/searchicon.png">
@@ -39,6 +39,7 @@
 
             <div id="logged-in">
                 <div id="username-div"><p id="master"></p></div>
+                <div id ="session-key-div"><p id="session-key"></p></div>
                 <div id="exit">
                     <div>
                         <a id="logout">Log out</a>
@@ -70,11 +71,11 @@
                     </div>
 
                     <div id="create-username">
-                        <input id="create-username-input" type="text" placeholder="username" autocomplete="off">
+                        <input id="create-username-input" type="text" placeholder="username" autocomplete="off" onkeypress="return dynamicLibrary.keyPress(event, ('create'))">
                     </div>
 
                     <div id="create-password">
-                        <input id="create-password-input" type="password" placeholder="password">
+                        <input id="create-password-input" type="password" placeholder="password" onkeypress="return dynamicLibrary.keyPress(event, 'create')">
                     </div>
 
                     <div id="create-button">
@@ -93,11 +94,11 @@
                     </div>
 
                     <div id="login-username">
-                        <input id="login-username-input" type="text" placeholder="username" autocomplete="off">
+                        <input id="login-username-input" type="text" placeholder="username" autocomplete="off" onkeypress="return dynamicLibrary.keyPress(event, 'enter')">
                     </div>
 
                     <div id="login-password">
-                        <input id="login-password-input" type="password" placeholder="password">
+                        <input id="login-password-input" type="password" placeholder="password" onkeypress="return dynamicLibrary.keyPress(event, 'enter')">
                     </div>
 
                     <div id="enter-button">

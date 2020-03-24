@@ -66,6 +66,10 @@
     }
 }
 
+div#session-key-div {
+    display: none;
+}
+
 p#marker-number {
     color: rgb(50, 120, 254);
     font-family: 'Noto Sans', sans-serif;
