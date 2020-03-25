@@ -10,11 +10,20 @@ class UsersController < ApplicationController
 
     def create
 
-        user_account = User.create(username: params[:username], password: params[:password])
+        user_account = User.new(username: params[:username], password: params[:password])
 
-        user_account.update_attribute(:session_key, params[:sessionkey])
+        #can't use create because validations aren't working properly, 'create' is persisting
+        #accounts that shouldn't exist even if they return errors
 
-        object = {user: user_account, errors: user_account.errors}
+        if user_account.valid?
+
+            user_account.update_attribute(:session_key, params[:sessionkey])
+
+            object = {user: user_account, errors: user_account.errors}
+        else
+            object = {user: user_account, errors: user_account.errors}
+            user_account.destroy
+        end
 
         render json: object
 
