@@ -489,19 +489,18 @@ let listenerLibrary = {
                 })
                 .then(function(object) {
                     console.log(object)
-                    if (object["user"]["id"] !== null){
-                        dynamicLibrary.messageBar(`Welcome, ${object["user"]["username"]}!`, "blue")
-                        dynamicLibrary.hideOnLogin()
-                        document.getElementById("master").innerText = object["user"]["username"] //store current username
-                        googleMapsLibrary.homeMarkerSaveOnEntry()
-                    } else {
+                    if (object["errors"]["password"] || object["errors"]["username"]){
                         if (object["errors"]["password"]){
                             dynamicLibrary.messageBar(`Password ${object["errors"]["password"][0]}`, "red")
                         } else if (object["errors"]["username"]){
                             dynamicLibrary.messageBar(`Username ${object["errors"]["username"][0]}`, "red")
                         }
+                    } else {
+                        dynamicLibrary.messageBar(`Welcome, ${object["user"]["username"]}!`, "blue")
+                        dynamicLibrary.hideOnLogin()
+                        document.getElementById("master").innerText = object["user"]["username"] //store current username
+                        googleMapsLibrary.homeMarkerSaveOnEntry()
                     }
-
                 })
                 .catch(function(error) {
                     alert("error");
