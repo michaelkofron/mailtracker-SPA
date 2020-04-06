@@ -1,6 +1,6 @@
 # Mail Tracker - Single Page Application
 
-Mail Tracker allows users to interact with a dynamic map provided by the Google Maps API in order to track the current whereabouts of up to 10 packages. This application includes support for 12 popular shipping carriers, and allows users to mark a home position on the map in order to see where packages are located relative to their destination. All information is served to the frontend using a Rails API that handles information from 2 separate APIs.
+Mail Tracker allows users to interact with a dynamic map provided by the Google Maps API in order to track the current whereabouts of up to 10 packages. This application includes support for [12 popular shipping carriers](#Supported-carriers), and allows users to mark a home position on the map in order to see where packages are located relative to their destination. All information is served to the frontend using a Rails API that handles information from 2 separate APIs.
 
 ![](images/site2.gif)
 
